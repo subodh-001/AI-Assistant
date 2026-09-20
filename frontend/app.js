@@ -1676,11 +1676,6 @@ async function applyClientIdAndReload() {
 }
 
 function showAuthModal() {
-  if (state.currentUser) {
-    toast(`Welcome back, ${state.currentUser.name}! You are already signed in.`, 'info');
-    switchSection('dashboard');
-    return;
-  }
   openModal('modal-auth');
   initGoogleSignIn();
 }
