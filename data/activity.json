@@ -855,5 +855,26 @@
     "description": "Configuration updated",
     "meta": {},
     "timestamp": "2026-09-20T21:32:26.817709"
+  },
+  {
+    "id": "4d39e3b1-50cf-4bde-97fb-153dc2c508a9",
+    "type": "system_start",
+    "description": "BRO-BOT v2 started up \ud83d\ude80",
+    "meta": {},
+    "timestamp": "2026-09-20T23:46:18.006118"
+  },
+  {
+    "id": "dbf3f56d-5bdb-4142-8e88-56e4520c372d",
+    "type": "user_login",
+    "description": "Google Sign-In: nothingsubodh@gmail.com",
+    "meta": {},
+    "timestamp": "2026-09-20T23:46:35.006557"
+  },
+  {
+    "id": "45563f64-23c3-4b44-a82d-6746ef28a0b4",
+    "type": "user_login",
+    "description": "Google Sign-In: nothingsubodh@gmail.com",
+    "meta": {},
+    "timestamp": "2026-09-21T00:01:38.262327"
   }
 ]
