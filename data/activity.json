@@ -1,0 +1,852 @@
+[
+  {
+    "id": "b6b988e2-2184-4de0-975e-b3c0a1e120d2",
+    "type": "system_start",
+    "description": "BRO-BOT v2 started up \ud83d\ude80",
+    "meta": {},
+    "timestamp": "2026-09-02T23:56:13.313317"
+  },
+  {
+    "id": "69d279d7-1171-4074-8143-ba100e09fc2e",
+    "type": "system_stop",
+    "description": "BRO-BOT shut down",
+    "meta": {},
+    "timestamp": "2026-09-02T23:58:26.362543"
+  },
+  {
+    "id": "c9094db9-cd39-4bbe-94d4-f0da7ed94206",
+    "type": "system_start",
+    "description": "BRO-BOT v2 started up \ud83d\ude80",
+    "meta": {},
+    "timestamp": "2026-09-20T18:34:42.039518"
+  },
+  {
+    "id": "c3cf529e-f0c4-4ec1-b581-53f2a90c9fe0",
+    "type": "system_start",
+    "description": "BRO-BOT v2 started up \ud83d\ude80",
+    "meta": {},
+    "timestamp": "2026-09-20T18:40:10.858676"
+  },
+  {
+    "id": "b469041e-f167-44f7-9723-3dbc38cdd371",
+    "type": "config_updated",
+    "description": "Configuration updated",
+    "meta": {},
+    "timestamp": "2026-09-20T18:41:55.068728"
+  },
+  {
+    "id": "fb495cb8-18d5-4854-ab71-44f57fc1f4f5",
+    "type": "job_scrape_started",
+    "description": "Job scraping started: Full Stack Developer, Software Engineer, Python Developer",
+    "meta": {},
+    "timestamp": "2026-09-20T18:42:31.774721"
+  },
+  {
+    "id": "70f87ec8-2ef4-4035-bc70-49ffc30c33d4",
+    "type": "job_found",
+    "description": "New job: Full Stack Engineer at DigiPlus IT",
+    "meta": {
+      "job_id": "c5f1682a-f5f0-48dd-a49a-5d7678c11e9f"
+    },
+    "timestamp": "2026-09-20T18:42:39.090072"
+  },
+  {
+    "id": "f158d5e7-685f-432c-aac6-cae3e39483f7",
+    "type": "job_found",
+    "description": "New job: Full Stack Engineer at HiroJet",
+    "meta": {
+      "job_id": "0bd2fe42-a8d0-4ab5-be6c-4a4dcb251367"
+    },
+    "timestamp": "2026-09-20T18:42:39.090451"
+  },
+  {
+    "id": "5074354c-a656-4d70-a95d-5a1d7a982449",
+    "type": "job_found",
+    "description": "New job: Full Stack Developer at IRIS Business Services Limited",
+    "meta": {
+      "job_id": "62018d7a-89cd-47f4-b2d3-4820141f73aa"
+    },
+    "timestamp": "2026-09-20T18:42:39.090808"
+  },
+  {
+    "id": "9d22b5d3-edc4-473f-9a72-3e29f257a3d8",
+    "type": "job_found",
+    "description": "New job: Full Stack Developer at TulsiVedant Enterprises LLP",
+    "meta": {
+      "job_id": "4a3fc645-b777-4244-aac1-5bd8912a4856"
+    },
+    "timestamp": "2026-09-20T18:42:39.091188"
+  },
+  {
+    "id": "d4b3ff8c-e6c0-493b-b0bb-5e78686a3882",
+    "type": "job_found",
+    "description": "New job: Full Stack Engineer at TIST Media",
+    "meta": {
+      "job_id": "6f5bc84a-e79e-48d2-896f-d804eea7cb01"
+    },
+    "timestamp": "2026-09-20T18:42:39.091698"
+  },
+  {
+    "id": "c2eda429-9f86-439a-899d-8010cd8dd89a",
+    "type": "job_found",
+    "description": "New job: Associate Full-stack Developer (LY-FS05) at Lemon Yellow LLP",
+    "meta": {
+      "job_id": "bc7755a2-a1d6-4cec-a961-c2c29726921e"
+    },
+    "timestamp": "2026-09-20T18:42:39.092174"
+  },
+  {
+    "id": "317a5595-1fd9-4c92-aedf-071eb7ce70a4",
+    "type": "job_found",
+    "description": "New job: Senior Full Stack Developer\nInformation Technology, , at VRSamadhan",
+    "meta": {
+      "job_id": "fc75d072-3c53-43af-8a43-08fc672350a3"
+    },
+    "timestamp": "2026-09-20T18:42:39.092609"
+  },
+  {
+    "id": "bde3a5de-10cb-47a3-a666-9aae928f3971",
+    "type": "job_found",
+    "description": "New job: Full Stack Developer - Mumbai at EAZY",
+    "meta": {
+      "job_id": "12dfb6e8-49e3-46cd-8dc9-363388d431dc"
+    },
+    "timestamp": "2026-09-20T18:42:39.093082"
+  },
+  {
+    "id": "d7aebce1-b310-4252-9742-e76d28efb984",
+    "type": "job_found",
+    "description": "New job: Python Development Intern at Bytive Technologies Private Limited",
+    "meta": {
+      "job_id": "a4393681-ee60-470a-b1d2-31e13f3e79f9"
+    },
+    "timestamp": "2026-09-20T18:42:39.093569"
+  },
+  {
+    "id": "f35247ce-a2c2-4cff-b750-fe0e3e70740c",
+    "type": "job_found",
+    "description": "New job: Python Development Intern at Aviral Uttam",
+    "meta": {
+      "job_id": "3bddcce1-3ef0-4d86-8fc2-7bfa3462d917"
+    },
+    "timestamp": "2026-09-20T18:42:39.094099"
+  },
+  {
+    "id": "9aa5ec7e-6ced-4eac-92eb-5cacc6f6835c",
+    "type": "job_found",
+    "description": "New job: Full Stack Development Intern at Jcloud Work",
+    "meta": {
+      "job_id": "30409ca9-6f4c-4837-9c3b-70d26b670841"
+    },
+    "timestamp": "2026-09-20T18:42:39.094618"
+  },
+  {
+    "id": "c745292d-7794-4fbc-8565-6f17d390c1f5",
+    "type": "job_found",
+    "description": "New job: Full Stack Development Intern at ZYRO LOGISTICS",
+    "meta": {
+      "job_id": "cc4d2a42-b4de-4dc1-a103-8114ea511076"
+    },
+    "timestamp": "2026-09-20T18:42:39.095231"
+  },
+  {
+    "id": "402b74e6-4231-40c3-a6a3-a78378917b42",
+    "type": "job_found",
+    "description": "New job: D\u00e9veloppeur Fullstack Symfony / Vue.js Senior - Casablanca & Rabat at SQLI",
+    "meta": {
+      "job_id": "d1945ec0-b68c-414a-bfde-cb2ebeaf9116"
+    },
+    "timestamp": "2026-09-20T18:42:46.690143"
+  },
+  {
+    "id": "e750aae2-1750-4e0a-8479-5cd7ad0eb70f",
+    "type": "job_found",
+    "description": "New job: Fullstack Developer at Propelius Technologies",
+    "meta": {
+      "job_id": "a70b37ff-cc33-4812-9a96-fec6454fb415"
+    },
+    "timestamp": "2026-09-20T18:42:46.690901"
+  },
+  {
+    "id": "f677ea0f-9294-4ab1-8497-2cefe8125b92",
+    "type": "job_found",
+    "description": "New job: Desarrollador/a Fullstack Senior (MERN Stack) - ANDALUCIA at AD4 Oct\u00f3gono",
+    "meta": {
+      "job_id": "8ef41cd3-fc33-478a-a859-630c5cedeafe"
+    },
+    "timestamp": "2026-09-20T18:42:46.691563"
+  },
+  {
+    "id": "a1d93d28-ed06-4f53-b9a6-4e2e47f6234a",
+    "type": "job_found",
+    "description": "New job: Full-Stack Software Engineer at ComunidadFeliz.com",
+    "meta": {
+      "job_id": "e66e2db4-72c0-4f45-9372-46c6df062d34"
+    },
+    "timestamp": "2026-09-20T18:42:46.692239"
+  },
+  {
+    "id": "90a0a838-6e14-48c7-be01-7c727287eb62",
+    "type": "job_found",
+    "description": "New job: Full-Stack Developer (Django + React) - Remote Work | REF#289435 at BairesDev",
+    "meta": {
+      "job_id": "cdafdac5-416e-46d0-825e-7dc9f817a29d"
+    },
+    "timestamp": "2026-09-20T18:42:46.693037"
+  },
+  {
+    "id": "8de80d76-3b94-4ac2-8bde-1d910ac0ad32",
+    "type": "job_found",
+    "description": "New job: HCM \u2013 Middle/ Senior Fullstack Developer (ReactJS + NodeJS) \u2013 OTA Platform \u2013 Hybrid working at Vexere",
+    "meta": {
+      "job_id": "18b85823-ac41-46e6-94d4-cd00fd972a44"
+    },
+    "timestamp": "2026-09-20T18:42:46.693766"
+  },
+  {
+    "id": "60a70f5f-4d79-40b8-affa-76b9ba7770c1",
+    "type": "job_found",
+    "description": "New job: DESARROLLADOR LIFERAY FULL STACK at knowmad mood",
+    "meta": {
+      "job_id": "21a25e23-1766-49a3-8188-d7cdbf1faf6a"
+    },
+    "timestamp": "2026-09-20T18:42:46.694762"
+  },
+  {
+    "id": "57d42421-1887-414e-81d8-8058ab9cbf39",
+    "type": "job_found",
+    "description": "New job: Ing\u00e9nieur Full Stack / Ing\u00e9nieure Full Stack Angular / NestJS at DM Geosoftware",
+    "meta": {
+      "job_id": "4a66671e-854b-43e7-98eb-05ffbb94f1bf"
+    },
+    "timestamp": "2026-09-20T18:42:46.695714"
+  },
+  {
+    "id": "546fed0a-b19c-49c1-a47d-97ef75331682",
+    "type": "job_found",
+    "description": "New job: Web Development Intern at Besick",
+    "meta": {
+      "job_id": "927bf9b0-ab8d-48c5-99d2-3af3f86d79ef"
+    },
+    "timestamp": "2026-09-20T18:42:46.697535"
+  },
+  {
+    "id": "ee0a07af-6711-4090-bb6e-878b0525ceee",
+    "type": "job_found",
+    "description": "New job: Senior Software Engineer, Devices - India at JumpCloud",
+    "meta": {
+      "job_id": "d24cb5ea-3bc4-4068-a210-93047883b62a"
+    },
+    "timestamp": "2026-09-20T18:42:54.141881"
+  },
+  {
+    "id": "97500908-3b83-4e3d-903c-37d134710bc6",
+    "type": "job_found",
+    "description": "New job: Software Engineer (Java) at WebEngage",
+    "meta": {
+      "job_id": "283a30c0-7f5b-4147-b742-8fe61139c6cf"
+    },
+    "timestamp": "2026-09-20T18:42:54.142798"
+  },
+  {
+    "id": "2c0248f1-3e68-427c-94a2-e4d7910d5cfa",
+    "type": "job_found",
+    "description": "New job: .NET Core Developer at Boardapp",
+    "meta": {
+      "job_id": "bfd3f28b-04a2-4618-b88b-4524b0cde60b"
+    },
+    "timestamp": "2026-09-20T18:42:54.143739"
+  },
+  {
+    "id": "6a90a34a-5ffb-4ddd-a26b-fff09219aa86",
+    "type": "job_found",
+    "description": "New job: Dotnet Developer at UST",
+    "meta": {
+      "job_id": "97580dcf-02f2-4b4f-a4f5-90deccd4a71e"
+    },
+    "timestamp": "2026-09-20T18:42:54.144683"
+  },
+  {
+    "id": "278dbd1b-bbe2-4843-873f-e40d62116c45",
+    "type": "job_found",
+    "description": "New job: Sr Software Engineer, Application Development at Ingram Micro",
+    "meta": {
+      "job_id": "939526b8-47a9-4ad8-a520-590007ec3f1c"
+    },
+    "timestamp": "2026-09-20T18:42:54.145605"
+  },
+  {
+    "id": "032d4145-bdd0-4487-a970-ea48ab525268",
+    "type": "job_found",
+    "description": "New job: Sr. Software Engineer at Harris Computer",
+    "meta": {
+      "job_id": "7ec5d8f9-033a-4d59-aeec-816fff3fbfbe"
+    },
+    "timestamp": "2026-09-20T18:42:54.146709"
+  },
+  {
+    "id": "cc8fe653-ebb9-4ebf-842c-2c60e0fe64bd",
+    "type": "job_found",
+    "description": "New job: Software Engineer - Java Development at Euronet in Asia",
+    "meta": {
+      "job_id": "a9915fe7-9540-46a1-b51b-3c16fcf5c96f"
+    },
+    "timestamp": "2026-09-20T18:42:54.147694"
+  },
+  {
+    "id": "8731d2ab-90eb-4835-b582-3a3686821888",
+    "type": "job_found",
+    "description": "New job: SDE II - Java Backend : Issuance at Nium",
+    "meta": {
+      "job_id": "c63d03cf-f26f-4ed5-aa9e-2868b7d1cb40"
+    },
+    "timestamp": "2026-09-20T18:42:54.148671"
+  },
+  {
+    "id": "9ea08e53-2e02-4755-977d-0d40ac77d4e9",
+    "type": "job_found",
+    "description": "New job: Software Engineer II - Java / Spring / AWS at JPMorganChase",
+    "meta": {
+      "job_id": "5195ebea-3d61-49af-a37a-3a7b5edaf347"
+    },
+    "timestamp": "2026-09-20T18:43:01.746476"
+  },
+  {
+    "id": "c010885d-e9f1-4d8d-a588-f2d05032dabc",
+    "type": "job_found",
+    "description": "New job: Software Engineer III, Java at JPMorganChase",
+    "meta": {
+      "job_id": "5db6931c-c839-44a1-be05-de7529c41f99"
+    },
+    "timestamp": "2026-09-20T18:43:01.747651"
+  },
+  {
+    "id": "fe614e8f-f90b-457b-92f9-0bbc2bdb9f24",
+    "type": "job_found",
+    "description": "New job: Senior Software Engineer \u2013 Go (Golang) at General Motors",
+    "meta": {
+      "job_id": "69b2be96-bdbb-48a5-a0e8-bcd6a69cabd5"
+    },
+    "timestamp": "2026-09-20T18:43:01.748619"
+  },
+  {
+    "id": "5a84758e-9d1b-40c3-9440-6f5af4e3dd2c",
+    "type": "job_found",
+    "description": "New job: Software Engineer, Apple Online Store (Early Careers) at Apple",
+    "meta": {
+      "job_id": "f8d6d046-c288-462e-b647-702187bbbeae"
+    },
+    "timestamp": "2026-09-20T18:43:01.749694"
+  },
+  {
+    "id": "819a13c4-8aa3-414a-beb3-abe222ff5a79",
+    "type": "job_found",
+    "description": "New job: Software Dev Engineer II, Alexa Connections at Amazon",
+    "meta": {
+      "job_id": "6375f777-59e2-43bc-b195-90def4546f38"
+    },
+    "timestamp": "2026-09-20T18:43:01.751060"
+  },
+  {
+    "id": "1ed2e1ea-75d3-4621-be6f-1dda8a042579",
+    "type": "job_found",
+    "description": "New job: Software Development Engineer, AWS IAM Distributed Database System at Amazon Web Services (AWS)",
+    "meta": {
+      "job_id": "1fc0c912-ad97-4eb3-ba5a-52eedeee55ec"
+    },
+    "timestamp": "2026-09-20T18:43:01.752223"
+  },
+  {
+    "id": "615c9453-e130-422c-99ae-1627ae776868",
+    "type": "job_found",
+    "description": "New job: Software Dev Engineer II, AWS STS at Amazon Web Services (AWS)",
+    "meta": {
+      "job_id": "24040d4d-7c11-4baa-b25f-b92fce299923"
+    },
+    "timestamp": "2026-09-20T18:43:01.753296"
+  },
+  {
+    "id": "b6ef3bd7-3617-4434-8a37-6fe83da7f37c",
+    "type": "job_found",
+    "description": "New job: Software Development Engineer II, WW Prime Tech at Amazon",
+    "meta": {
+      "job_id": "5f456f68-22c8-4599-961f-6380f3b00843"
+    },
+    "timestamp": "2026-09-20T18:43:01.754428"
+  },
+  {
+    "id": "cbbb1138-dec8-4511-8917-83e07e6cb0b5",
+    "type": "job_found",
+    "description": "New job: Senior Python Developer at PPFAS Mutual Fund",
+    "meta": {
+      "job_id": "a2e01edf-3da6-4603-9ca5-842adb54a529"
+    },
+    "timestamp": "2026-09-20T18:43:09.041956"
+  },
+  {
+    "id": "883caa4b-986e-4065-8929-3543f94897da",
+    "type": "job_found",
+    "description": "New job: Python Developer | Mumbai at Prep Study",
+    "meta": {
+      "job_id": "d39e5adf-1301-42d5-966f-4d6aa5c514ab"
+    },
+    "timestamp": "2026-09-20T18:43:09.043386"
+  },
+  {
+    "id": "b910013c-8029-4ca5-88b7-494cc017dbc4",
+    "type": "job_found",
+    "description": "New job: Python/Java Developer at IFTAS - Indian Financial Technology & Allied Services",
+    "meta": {
+      "job_id": "5d5fd8f1-d2f8-428b-819c-5b3a577c98bd"
+    },
+    "timestamp": "2026-09-20T18:43:09.044844"
+  },
+  {
+    "id": "48cdb61e-d6ec-468b-922a-9918b4bd9e22",
+    "type": "job_found",
+    "description": "New job: Python Developer at SourcingXPress",
+    "meta": {
+      "job_id": "0e07bb15-d82c-453b-ae4e-d78eef4e9337"
+    },
+    "timestamp": "2026-09-20T18:43:09.046501"
+  },
+  {
+    "id": "d47ff126-6be1-4374-805a-30a5b6e635f3",
+    "type": "job_found",
+    "description": "New job: Python/Java Developer at IFTAS - Indian Financial Technology & Allied Services",
+    "meta": {
+      "job_id": "18079ca1-8330-4506-80a9-193b1ac9822e"
+    },
+    "timestamp": "2026-09-20T18:43:09.047918"
+  },
+  {
+    "id": "e2c4fd3f-4edd-4cb0-9b60-bca5a2a08e62",
+    "type": "job_found",
+    "description": "New job: Mid Level Python developer at Build & Hire",
+    "meta": {
+      "job_id": "231a0373-cc70-4251-a179-71aca61d1cec"
+    },
+    "timestamp": "2026-09-20T18:43:09.049252"
+  },
+  {
+    "id": "293a3892-46d7-44ed-b1a6-61e4a6f1e234",
+    "type": "job_found",
+    "description": "New job: Python Developer - (Django ) Goregaon West at Rentokil Initial",
+    "meta": {
+      "job_id": "8ef7558a-f408-4b6a-be2b-eda725afa655"
+    },
+    "timestamp": "2026-09-20T18:43:09.050622"
+  },
+  {
+    "id": "57c11831-7fdc-4c94-a722-5241338234af",
+    "type": "job_found",
+    "description": "New job: Python Developer at AdEngage",
+    "meta": {
+      "job_id": "dc5df5a8-e2d2-4759-8acd-6f1d99be6564"
+    },
+    "timestamp": "2026-09-20T18:43:09.052118"
+  },
+  {
+    "id": "f2aa7b92-3c5b-45c8-bb3b-aecd17835de2",
+    "type": "job_found",
+    "description": "New job: Artificial Intelligence (AI) Intern at IFOA",
+    "meta": {
+      "job_id": "256b9a86-aef2-4fc1-ac7e-d9d6a6eb34a0"
+    },
+    "timestamp": "2026-09-20T18:43:09.054263"
+  },
+  {
+    "id": "714156e2-cbc7-4401-8922-c8a8e48660d3",
+    "type": "job_scrape_started",
+    "description": "Job scraping started: Full Stack Developer, Software Engineer, Python Developer",
+    "meta": {},
+    "timestamp": "2026-09-20T18:43:09.060037"
+  },
+  {
+    "id": "76eef2a0-ff6d-4a17-bff8-71b790438761",
+    "type": "job_found",
+    "description": "New job: SENIOR BACKEND PYTHON DJANGO DEVELOPER at Auxo Care",
+    "meta": {
+      "job_id": "7986bb72-0b07-466b-99f7-16dd2f2e2f72"
+    },
+    "timestamp": "2026-09-20T18:43:22.130196"
+  },
+  {
+    "id": "7d8830b2-741a-4099-9e73-25783a639472",
+    "type": "job_found",
+    "description": "New job: Python Developer (English Required) at SOTATEK., JSC",
+    "meta": {
+      "job_id": "c006cb0e-f66e-4c2c-a2ab-a6f400498f2c"
+    },
+    "timestamp": "2026-09-20T18:43:22.131533"
+  },
+  {
+    "id": "bc5ef4af-b27c-427f-a40b-8d19f90141f4",
+    "type": "job_found",
+    "description": "New job: D\u00e9veloppeur Back End Python at Confluences IT",
+    "meta": {
+      "job_id": "6ab766ea-bf1e-48dc-bc76-563b3182300f"
+    },
+    "timestamp": "2026-09-20T18:43:22.132822"
+  },
+  {
+    "id": "2234b8de-cfef-49ad-bf08-1d337e6490d2",
+    "type": "job_found",
+    "description": "New job: Python Developer at Infosys",
+    "meta": {
+      "job_id": "3858179a-8279-4f90-9a0b-ccd814d3bed5"
+    },
+    "timestamp": "2026-09-20T18:43:22.134284"
+  },
+  {
+    "id": "9f695a92-72f4-469a-9ebf-1a36a5edcd86",
+    "type": "job_found",
+    "description": "New job: Python Developer (3YOE+) at DAC Data Technology Vietnam",
+    "meta": {
+      "job_id": "8cad4bb6-67b8-45f6-a66a-ec101e400964"
+    },
+    "timestamp": "2026-09-20T18:43:22.136780"
+  },
+  {
+    "id": "dcdd4651-67f9-440c-8b14-0ca95caf4cf5",
+    "type": "job_found",
+    "description": "New job: D\u00e9veloppeur Python Senior - SaaS BtoB at Connity",
+    "meta": {
+      "job_id": "a03a3805-bbe5-418e-a9f8-0e728da22190"
+    },
+    "timestamp": "2026-09-20T18:43:22.139616"
+  },
+  {
+    "id": "f7e89b0d-836c-461c-a6e1-721d63fe94d0",
+    "type": "job_found",
+    "description": "New job: Python Developer at KCS iT",
+    "meta": {
+      "job_id": "42d008db-18e9-4baa-86a1-01bb591b46c7"
+    },
+    "timestamp": "2026-09-20T18:43:22.142397"
+  },
+  {
+    "id": "cac611ea-fc3a-43d1-a9fc-20693ae5ba76",
+    "type": "job_found",
+    "description": "New job: Python Backend Developer at Wissen Technology",
+    "meta": {
+      "job_id": "f2790046-bd3e-4a4f-93da-a63733f10dc8"
+    },
+    "timestamp": "2026-09-20T18:43:22.145201"
+  },
+  {
+    "id": "60e70ced-238b-4ada-8a0e-a7cac5fc3a20",
+    "type": "job_scan_complete",
+    "description": "Job scan complete: 72 new jobs found",
+    "meta": {},
+    "timestamp": "2026-09-20T18:43:29.063012"
+  },
+  {
+    "id": "86f1f307-66e1-4d91-9708-b730e4c43135",
+    "type": "job_found",
+    "description": "New job: Software Testing Intern at Brained.app",
+    "meta": {
+      "job_id": "53df15a6-56e6-42b7-9b22-85a301b5bb92"
+    },
+    "timestamp": "2026-09-20T18:43:55.718480"
+  },
+  {
+    "id": "3788bb51-3348-4b72-90ce-a1810b762327",
+    "type": "job_scan_complete",
+    "description": "Job scan complete: 72 new jobs found",
+    "meta": {},
+    "timestamp": "2026-09-20T18:43:56.719804"
+  },
+  {
+    "id": "d5d875cc-ca65-4ad6-aea4-9c5740713d14",
+    "type": "deep_research",
+    "description": "DeepSeek research completed for salesfource",
+    "meta": {},
+    "timestamp": "2026-09-20T18:48:37.703938"
+  },
+  {
+    "id": "24080cd2-692e-493a-8416-3f6a963ed18f",
+    "type": "resume_uploaded",
+    "description": "Resume uploaded: Subodh_Resume.pdf (170KB)",
+    "meta": {},
+    "timestamp": "2026-09-20T18:49:56.771028"
+  },
+  {
+    "id": "36f8772f-22e1-480f-8764-9f922a2a60d9",
+    "type": "config_updated",
+    "description": "Configuration updated",
+    "meta": {},
+    "timestamp": "2026-09-20T18:50:35.548311"
+  },
+  {
+    "id": "43a8b14c-7e90-410f-891f-4a841cd72bb3",
+    "type": "job_scrape_started",
+    "description": "Job scraping started: solution engineer",
+    "meta": {},
+    "timestamp": "2026-09-20T18:52:42.298489"
+  },
+  {
+    "id": "485fe0b9-b67e-4a4c-8114-75d252a6c2b7",
+    "type": "job_found",
+    "description": "New job: Senior Solutions Engineer at Couchbase",
+    "meta": {
+      "job_id": "5b6dc128-6fba-43ea-8452-26d1de336090"
+    },
+    "timestamp": "2026-09-20T18:52:49.411087"
+  },
+  {
+    "id": "63e36f25-d0d2-4989-8a0f-9d3e5782e39b",
+    "type": "job_found",
+    "description": "New job: Senior Systems Engineer at Nutanix",
+    "meta": {
+      "job_id": "37e5413d-90c1-40a9-be11-3a0a1ce66838"
+    },
+    "timestamp": "2026-09-20T18:52:49.413094"
+  },
+  {
+    "id": "94e7b26e-0fb3-4270-9240-c89aad40acc9",
+    "type": "job_found",
+    "description": "New job: Solution Engineer- SOC at Eventus Security",
+    "meta": {
+      "job_id": "b6df9887-c862-45d1-82c8-400d4c86faeb"
+    },
+    "timestamp": "2026-09-20T18:52:49.414938"
+  },
+  {
+    "id": "15e5216f-c859-43e6-96ed-f4126147b44e",
+    "type": "job_found",
+    "description": "New job: Senior Systems Engineer (Pre Sales) at Arista Networks",
+    "meta": {
+      "job_id": "abbf55cd-02ea-4173-baf7-9d282c14f1e3"
+    },
+    "timestamp": "2026-09-20T18:52:49.416783"
+  },
+  {
+    "id": "b4ba4af9-37a8-49d8-bdac-43cc76c3217f",
+    "type": "job_found",
+    "description": "New job: Senior Solutions Engineer, India West at Milestone Systems",
+    "meta": {
+      "job_id": "2115dc04-7edc-40e5-81fe-2bacf1956013"
+    },
+    "timestamp": "2026-09-20T18:52:49.418718"
+  },
+  {
+    "id": "9f45ff4f-b016-4227-a54e-3d51b1eee49e",
+    "type": "job_found",
+    "description": "New job: Advisory Solution Consultant at ServiceNow",
+    "meta": {
+      "job_id": "795b5a59-130d-4725-beab-6d9ce5af17c6"
+    },
+    "timestamp": "2026-09-20T18:52:49.420589"
+  },
+  {
+    "id": "7605763e-20db-4486-9510-fa00cabd6fcf",
+    "type": "job_found",
+    "description": "New job: Presales Engineer at Shivaami",
+    "meta": {
+      "job_id": "18f06f18-e607-43be-b758-e3910a653798"
+    },
+    "timestamp": "2026-09-20T18:52:49.422458"
+  },
+  {
+    "id": "d538e439-cc9e-4b7a-a970-329c2a111c3d",
+    "type": "job_found",
+    "description": "New job: Senior Systems Engineer (Pre-Sales) at Arista Networks",
+    "meta": {
+      "job_id": "7b78fc33-80b1-42fd-a8de-6a4c38e26912"
+    },
+    "timestamp": "2026-09-20T18:52:49.424388"
+  },
+  {
+    "id": "077041d0-a065-4628-8071-5b88b33f4f9e",
+    "type": "job_found",
+    "description": "New job: Customer Success (Key Accounts) Intern at PadCare Labs",
+    "meta": {
+      "job_id": "bd01486d-9533-461b-9b15-d1ac4ac0715e"
+    },
+    "timestamp": "2026-09-20T18:52:49.426211"
+  },
+  {
+    "id": "c58f5b58-e83f-47e2-9077-fd7c3617324c",
+    "type": "job_found",
+    "description": "New job: Client Servicing Intern at Metablis",
+    "meta": {
+      "job_id": "83881218-d0e5-451d-8e34-83655ffa7b66"
+    },
+    "timestamp": "2026-09-20T18:52:49.428111"
+  },
+  {
+    "id": "742ea6e2-c97c-4f4d-b9d2-288056bb9442",
+    "type": "job_found",
+    "description": "New job: Talent Acquisition And Admin Intern at Ellipsol Systems Private Limited",
+    "meta": {
+      "job_id": "802aadcf-1ee0-4730-bf21-ad2a71938b7b"
+    },
+    "timestamp": "2026-09-20T18:52:49.431184"
+  },
+  {
+    "id": "c7fc0ab8-b5fa-44d2-b545-7dbeb31b71ad",
+    "type": "job_found",
+    "description": "New job: Operations Intern at Shubham Kumar",
+    "meta": {
+      "job_id": "decad3d6-0d7d-42d3-832e-0d7ccf0b87e0"
+    },
+    "timestamp": "2026-09-20T18:52:49.433604"
+  },
+  {
+    "id": "8b6b91a7-a59b-48e7-a536-d5881dae83a2",
+    "type": "job_found",
+    "description": "New job: Solutions Engineer/Pre-sales at Coins.ph",
+    "meta": {
+      "job_id": "b0e3135b-75c0-43d3-8a45-8df7d8239c4e"
+    },
+    "timestamp": "2026-09-20T18:52:57.379184"
+  },
+  {
+    "id": "cd1f8417-6004-490a-b7de-b1e0e8a303e3",
+    "type": "job_found",
+    "description": "New job: Senior Solution Engineer / Pre-sales Consultant (English, Banking & Fintech) at Topicus Vietnam",
+    "meta": {
+      "job_id": "e4255a22-f114-4e60-89f7-395a325eb3b2"
+    },
+    "timestamp": "2026-09-20T18:52:57.381135"
+  },
+  {
+    "id": "8f260bfa-0630-472e-a21f-beaee0c5ec3d",
+    "type": "job_found",
+    "description": "New job: Solution Engineer at AvePoint",
+    "meta": {
+      "job_id": "efeb8f3a-bc18-4faa-a4a6-58dd53b286b2"
+    },
+    "timestamp": "2026-09-20T18:52:57.385874"
+  },
+  {
+    "id": "d4596585-79ca-4543-bc29-a1b5eeaead2a",
+    "type": "job_found",
+    "description": "New job: Senior Solutions Engineer JAPAC at Supermetrics",
+    "meta": {
+      "job_id": "c6a14bdc-7cc5-4cb6-881b-772f521e1b63"
+    },
+    "timestamp": "2026-09-20T18:52:57.388122"
+  },
+  {
+    "id": "45315582-0767-4c9b-a5ea-0fd10bde08f1",
+    "type": "job_found",
+    "description": "New job: Senior Solutions Engineer JAPAC at Supermetrics",
+    "meta": {
+      "job_id": "c2d2c9aa-2203-47b2-9d8a-d8dfdec7b002"
+    },
+    "timestamp": "2026-09-20T18:52:57.390400"
+  },
+  {
+    "id": "9bdc607e-7e6d-4033-ba5e-3e033b5f50b2",
+    "type": "job_found",
+    "description": "New job: Senior Solutions Engineer at Jeppesen ForeFlight",
+    "meta": {
+      "job_id": "f6b63517-4d55-4350-9baa-1635b5c6b235"
+    },
+    "timestamp": "2026-09-20T18:52:57.392664"
+  },
+  {
+    "id": "0b3559cc-890e-40f6-994d-e05cc2a3682d",
+    "type": "job_found",
+    "description": "New job: Senior Presales Solution Engineer at Couchbase",
+    "meta": {
+      "job_id": "50ee71ea-87b6-47a9-820e-6fe5baafeb40"
+    },
+    "timestamp": "2026-09-20T18:52:57.394862"
+  },
+  {
+    "id": "e4577d64-81bd-4281-baa8-aea3f89e5941",
+    "type": "job_found",
+    "description": "New job: Lead - Solution Engineer at Freshworks",
+    "meta": {
+      "job_id": "12b9abef-6905-49a6-9473-f0e36082670a"
+    },
+    "timestamp": "2026-09-20T18:52:57.397009"
+  },
+  {
+    "id": "90a83a11-a112-4312-bdf6-b77a10644860",
+    "type": "job_scan_complete",
+    "description": "Job scan complete: 24 new jobs found",
+    "meta": {},
+    "timestamp": "2026-09-20T18:52:58.400177"
+  },
+  {
+    "id": "7b2f87b9-7cd8-4320-950e-d1093f81205b",
+    "type": "system_stop",
+    "description": "BRO-BOT shut down",
+    "meta": {},
+    "timestamp": "2026-09-20T19:52:46.180194"
+  },
+  {
+    "id": "c2c13cd6-24f9-458a-ae38-a4eacced7056",
+    "type": "system_start",
+    "description": "BRO-BOT v2 started up \ud83d\ude80",
+    "meta": {},
+    "timestamp": "2026-09-20T19:52:50.455592"
+  },
+  {
+    "id": "08053b5d-1629-44be-a03a-6a27788b6f92",
+    "type": "config_updated",
+    "description": "Configuration updated",
+    "meta": {},
+    "timestamp": "2026-09-20T19:53:04.784227"
+  },
+  {
+    "id": "e0b12d56-6d17-4bfb-a2cf-84595fd2be0c",
+    "type": "cv_tailored",
+    "description": "Tailored CV generated for Senior AI Engineer at Google",
+    "meta": {},
+    "timestamp": "2026-09-20T19:59:35.554602"
+  },
+  {
+    "id": "b80bf708-0ed2-45b8-b8ec-de880bce8b60",
+    "type": "cv_tailored",
+    "description": "Tailored CV generated for Full Stack Developer at Google",
+    "meta": {},
+    "timestamp": "2026-09-20T20:06:18.099756"
+  },
+  {
+    "id": "30af396e-f8d4-4090-b279-9c91539411ee",
+    "type": "cv_tailored",
+    "description": "Tailored CV generated for Full Stack Developer at Target Role",
+    "meta": {},
+    "timestamp": "2026-09-20T20:09:22.562948"
+  },
+  {
+    "id": "338bc128-caae-41d0-a23e-c298fba07c14",
+    "type": "cv_tailored",
+    "description": "Tailored CV generated for Full Stack Engineer at Target Role",
+    "meta": {},
+    "timestamp": "2026-09-20T20:47:08.523733"
+  },
+  {
+    "id": "c35857f1-8c37-4ba1-889c-9362f4743236",
+    "type": "system_stop",
+    "description": "BRO-BOT shut down",
+    "meta": {},
+    "timestamp": "2026-09-20T20:49:13.304517"
+  },
+  {
+    "id": "8445bc79-4264-4f70-a3ba-055d7a3fa1da",
+    "type": "system_start",
+    "description": "BRO-BOT v2 started up \ud83d\ude80",
+    "meta": {},
+    "timestamp": "2026-09-20T20:49:18.953164"
+  },
+  {
+    "id": "98ee67bb-6a87-4029-9509-1062a6bbe2b2",
+    "type": "cv_tailored",
+    "description": "Tailored CV generated for cyber security at google",
+    "meta": {},
+    "timestamp": "2026-09-20T20:50:00.852304"
+  },
+  {
+    "id": "3b2f45bd-d929-4b4f-b63b-63e90b2b15a3",
+    "type": "cv_tailored",
+    "description": "Tailored CV generated for cyber security at google",
+    "meta": {},
+    "timestamp": "2026-09-20T20:50:55.944837"
+  }
+]

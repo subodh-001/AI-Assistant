@@ -1,0 +1,28 @@
+{
+  "profile": {
+    "name": "Subodh Ram",
+    "domain": "",
+    "skills": []
+  },
+  "job_hunting": {
+    "keywords": [
+      "Full Stack Developer",
+      "Software Engineer",
+      "Python Developer"
+    ],
+    "locations": [
+      "Mumbai",
+      "Remote",
+      "Bangalore"
+    ],
+    "experience_level": "fresher"
+  },
+  "notifications": {
+    "daily_brief_time": "08:00"
+  },
+  "stats": {
+    "total_posts": 0,
+    "total_jobs_applied": 0,
+    "total_messages_handled": 0
+  }
+}

@@ -1,0 +1,87 @@
+[
+  {
+    "id": "proj-deadman",
+    "title": "DeadMan Protocol (Digital Will Smart Contract & Executor)",
+    "domain": "Web3 / Blockchain / Full-Stack",
+    "tags": ["Blockchain", "Smart Contracts", "NestJS", "Next.js", "Expo", "Ethereum", "Ethers.js", "TypeScript"],
+    "bullets": [
+      "Architected a decentralized Digital Will Protocol on Ethereum enabling automated wealth transfer upon deadman switch trigger.",
+      "Engineered NestJS backend microservices, Next.js web portal, and Expo mobile app connected via WebSocket for real-time heartbeat monitoring.",
+      "Integrated automated fallback verification workflows and encrypted key sharding to ensure 100% security of digital asset release."
+    ]
+  },
+  {
+    "id": "proj-crompton",
+    "title": "Crompton AI Manufacturing Defect Detection Agent",
+    "domain": "AI/ML / Computer Vision",
+    "tags": ["AI/ML", "Computer Vision", "OpenCV", "Azure OpenAI", "GPT-4o", "Python", "Docker", "FastAPI"],
+    "bullets": [
+      "Developed an automated quality inspection pipeline utilizing Azure OpenAI GPT-4o and OpenCV for fan manufacturing defect detection.",
+      "Implemented image/video frame preprocessing (CLAHE contrast enhancement, denoising) reducing inspection latency by 40%.",
+      "Aggregated multi-frame defect severity metrics into actionable quality analytics dashboards containerized with Docker."
+    ]
+  },
+  {
+    "id": "proj-brobot",
+    "title": "BRO-BOT — Personal AI Life Manager & Career Assistant",
+    "domain": "AI / Full-Stack / Automation",
+    "tags": ["AI/ML", "Python", "FastAPI", "Gemini AI", "Telegram Bot API", "APScheduler", "JavaScript", "HTML/CSS"],
+    "bullets": [
+      "Built an intelligent 24/7 AI career assistant leveraging Google Gemini 1.5 Flash API for automated resume tailoring, cover letters, and recruiter response generation.",
+      "Engineered multi-source job scraping, ATS keyword optimization, and interactive Kanban application tracker.",
+      "Integrated automated Telegram daily briefs with APScheduler for background job aggregation and summary dispatch."
+    ]
+  },
+  {
+    "id": "proj-parking",
+    "title": "Smart Parking System",
+    "domain": "Java / Full-Stack / Mobile",
+    "tags": ["Java", "Spring Boot", "JSP", "Oracle DB", "Android", "Firebase", "OpenStreetMap"],
+    "bullets": [
+      "Developed a smart parking solution with web and Android apps enabling real-time parking spot discovery, pricing views, and slot reservations.",
+      "Integrated OpenStreetMap for live location tracking and implemented QR-based access tokens for secure entry/exit.",
+      "Reduced parking congestion and improved operational efficiency via real-time availability tracking algorithm."
+    ]
+  },
+  {
+    "id": "proj-prop-price",
+    "title": "Property Price Prediction System",
+    "domain": "AI/ML / Full-Stack",
+    "tags": ["Python", "Machine Learning", "Scikit-Learn", "React", "Node.js", "MongoDB", "Pandas"],
+    "bullets": [
+      "Built an AI-driven platform predicting real estate prices using trained regression models based on location and amenity inputs.",
+      "Created interactive data visualizations with Matplotlib & React for market trend analysis and pricing insights.",
+      "Designed full-stack architecture connecting React frontend with Python prediction microservice via REST APIs."
+    ]
+  },
+  {
+    "id": "proj-techconnect",
+    "title": "SmartTech Connect Inventory & Retail System",
+    "domain": "Full-Stack Web",
+    "tags": ["React", "Node.js", "Express", "MongoDB", "Firebase"],
+    "bullets": [
+      "Designed full-stack web application to streamline medicine ordering, invoice generation, and automated stock tracking for local pharmacies.",
+      "Implemented automated supplier email notifications and real-time inventory threshold alerts."
+    ]
+  },
+  {
+    "id": "exp-aivariant",
+    "title": "Data Analysis Internship — Aivariant",
+    "domain": "Data Analytics / Python",
+    "tags": ["Python", "Pandas", "Excel", "Data Visualization", "Power BI", "Tableau", "SQL"],
+    "bullets": [
+      "Cleaned and processed large-scale datasets, performing exploratory data analysis and statistical validation using Python & Pandas.",
+      "Built executive Power BI & Excel dashboards to present data insights and drive operational business decisions."
+    ]
+  },
+  {
+    "id": "exp-sunjewels",
+    "title": "IT Support Assistant — Sunjewels Pvt Ltd",
+    "domain": "Networking / IT Operations",
+    "tags": ["Networking", "TCP/IP", "Wireshark", "Nmap", "DNS/DHCP", "Subnetting", "System Administration"],
+    "bullets": [
+      "Managed user accounts, network security monitoring, IP subnetting, routing, and access control policies.",
+      "Performed network traffic analysis and security troubleshooting using Wireshark, Nmap, and command-line diagnostic tools."
+    ]
+  }
+]

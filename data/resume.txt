@@ -1,0 +1,50 @@
+SUBODH RAM
+Mumbai, Maharashtra, India | +91-9076314255
+subodhram3350@gmail.com LinkedIn: subodhram | GitHub: subodh-001 | Portfolio:subodh-portfolio-zeta.vercel.app
+SUMMARY
+AI-focusedsoftwareengineerwithhands-onexperiencebuildingGenAIapplications,computervisionpipelines,andML-driven
+productsusingAzureOpenAIGPT-4o,GoogleGemini,OpenCV,FastAPI,andPython.Shippedandcurrentlyoperatealive
+productionWeb3product(alwaystherevault.com)servingrealusers.Strongfoundationinbackendengineering(NestJS,FastAPI),
+RESTAPIs,andcloud-readycontainerizedservices.AI-firstdeveloperusingClaude,GitHubCopilot,Cursor,andGPT-4oindaily
+workflows.SeekinganAI/GenAIEngineer,MLEngineer,orBackend-with-AIroletobuildproduction-gradeintelligentsystems.
+Education
+MPSTME, NMIMS University Mumbai, India
+MasterofComputerApplication(MCA)-CGPA:7.57/10(4Semesters) July2024–June2026
+TolaniCollegeofCommerce Mumbai,India
+Bachelor’sofScienceinInformationTechnology(BscIT)-CGPA:8.28/10 Sep2020–May2023
+ChandrabhanSharmaCollege Mumbai,India
+HSC-74.77% April2018–May2020
+S.APublicSchool Mumbai,India
+SSC -66.20% April2017–March2018
+Internship& JobExperience
+FGTECHInnovationLLP.–NetworkEngineer Jan 2026 - Sep 2026
+• Implementedfirewallpolicies(pfSense/FortiGate)—NAT,ACL,VPN,andportforwarding.
+• ManagedandmaintainedLAN/WANinfrastructurefor100+usersVLANs,OSPF,staticrouting.
+• Monitorednetworkperformance,resolvedpacketloss,latency,andlinkflappingissues.
+• CoordinatedwithISPsforleasedlineuptime,bandwidth,andfaultresolution.
+• Documentednetworkdiagrams,IPschemas,andmaintained99.9%uptime.
+Aivariant—DataAnalysisInternship|Mumbai,India Nov 2023 - May 2024
+• CleanedandprocessedlargedatasetsandperformedstatisticalanalysisusingExcel&Python.
+• Builtdashboardsandvisualizationstopresentinsightsandsupportdata-drivendecisions.
+Projects
+AlwaysThereProtocol|Next.js,NestJS,PostgreSQL,Solidity,Web3 Dec2025
+• BuiltadecentralizeddigitalwillplatformonEthereum.Transferscryptoassetsautomaticallywhenausergoesinactive.
+• BackendinNestJS,webinNext.js,mobileinExpoconnectedviaWebSocketsforliveheartbeattracking.
+• Addedfallbackverificationandencryptedkeyshardingforsecureassetrelease.
+• Liveatalwaystherevault.comwithrealusersandon-chaintransactions.
+• Storage:Hybridstorage—willdocumentsencryptedandstoredonIPFS+Arweavefortamper-proofpermanence.
+• Security:Wallet-basedsignatureauthentication,encryptedkeyshardingandatwo-stepfallbackverificationbeforeanytransfer.
+TravelExpense.io—TravelExpenseTracker July2026
+• Full-stackexpensetrackerwithwebdashboard,ExpomobileappandRESTAPI.
+• KeepsexpensesinthesameExcelmatrixformatcompaniesalreadyuse.
+• Addedreceiptupload,multi-usersupport,adminsettlementviews,monthlyKPIsandaWhatsAppbotforloggingexpenses.
+• MigratedFirebaseFirestoretoSupabasePostgreSQLwithazero-data-lossscript.
+Technical Skills
+AI/ML:AzureOpenAI(GPT-4o),Gemini,promptengineering,LLMapps,OpenCV,Scikit-Learn,Pandas,Claude,Copilot,Cursor,
+ChatGPT
+ProgrammingLanguages:Java,Python,JavaScript,HTML/CSS
+Frameworks&Databases:React.js,Node.js,Express.js,SpringBoot|MySQL,MongoDB,CloudFirestore,PostgreSQL(Supabase)
+DeveloperTools:Git,VSCode,IntelliJ,Eclipse,GoogleColab,AndroidStudio,Firebase,Jira(Basic)
+NetworkServicesManagement:TCP/IP,VLAN,OSPF,StaticRouting,NAT,ACL,VPN,DHCP,DNS,Firewall,Subnetting
+Certifications
+• DataAnalyticsCertification–ExcelR

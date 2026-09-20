@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BRO-BOT v2 — Personal AI Life Manager</title>
+  <meta name="description" content="BRO-BOT: AI-powered personal assistant for social media, job hunting, and recruiter management.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+</head>
+<body>
+  <div class="bg-orbs" aria-hidden="true"></div>
+  <div id="toast-container" aria-live="polite"></div>
+
+  <!-- ═══ OFFLINE BANNER ═══ -->
+  <div id="offline-banner" style="display:none;position:fixed;top:0;left:0;right:0;z-index:9999;background:linear-gradient(90deg,#7f1d1d,#991b1b);color:white;padding:10px 24px;font-size:13px;font-weight:600;display:none;align-items:center;gap:12px;border-bottom:1px solid rgba(255,100,100,0.3)">
+    <span>⚠️</span>
+    <span>Backend is offline. Start it with: <code style="background:rgba(0,0,0,0.3);padding:2px 8px;border-radius:4px;font-family:monospace">python -m uvicorn backend.main:app --port 8000</code></span>
+    <button onclick="checkHealth()" style="margin-left:auto;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:white;padding:4px 12px;border-radius:6px;cursor:pointer;font-size:12px">Retry</button>
+  </div>
+
+  <!-- ═══ ONBOARDING WIZARD ═══ -->
+  <div id="onboarding-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(12px);z-index:5000;align-items:center;justify-content:center">
+    <div style="background:var(--bg-surface);border:1px solid rgba(139,92,246,0.3);border-radius:var(--radius-xl);width:540px;max-width:90vw;overflow:hidden;box-shadow:0 40px 100px rgba(0,0,0,0.6)">
+      <!-- Progress bar -->
+      <div style="height:3px;background:var(--glass-border)">
+        <div id="onboarding-progress" style="height:100%;background:linear-gradient(90deg,var(--purple-600),var(--cyan-500));transition:width 0.4s ease;width:25%"></div>
+      </div>
+
+      <div style="padding:36px">
+        <!-- Step 1 -->
+        <div class="onboarding-step active" id="step-1">
+          <div style="font-size:48px;margin-bottom:16px;text-align:center">👋</div>
+          <h2 style="font-size:24px;font-weight:800;text-align:center;margin-bottom:8px">Welcome to BRO-BOT!</h2>
+          <p style="color:var(--text-muted);text-align:center;font-size:14px;margin-bottom:28px">Your personal AI life manager. Let's set you up in 3 quick steps — takes under 2 minutes.</p>
+          <div style="background:var(--bg-card);border:1px solid var(--glass-border);border-radius:var(--radius-lg);padding:20px;margin-bottom:24px">
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <div style="display:flex;align-items:center;gap:12px">
+                <div style="width:36px;height:36px;border-radius:10px;background:rgba(139,92,246,0.15);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">✨</div>
+                <div><div style="font-weight:600;font-size:14px">AI writes your posts</div><div style="font-size:12px;color:var(--text-muted)">LinkedIn, Instagram, Twitter — just give a topic</div></div>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px">
+                <div style="width:36px;height:36px;border-radius:10px;background:rgba(6,182,212,0.15);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">💼</div>
+                <div><div style="font-weight:600;font-size:14px">Auto-scans job portals</div><div style="font-size:12px;color:var(--text-muted)">Indeed, Naukri, Internshala — jobs sent to your dashboard</div></div>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px">
+                <div style="width:36px;height:36px;border-radius:10px;background:rgba(34,197,94,0.15);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">📰</div>
+                <div><div style="font-weight:600;font-size:14px">Daily brief on Telegram</div><div style="font-size:12px;color:var(--text-muted)">Every morning — what happened, what needs attention</div></div>
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-primary" style="width:100%" onclick="nextStep(2)">Let's go! →</button>
+        </div>
+
+        <!-- Step 2: Profile Setup -->
+        <div class="onboarding-step" id="step-2" style="display:none">
+          <div style="font-size:40px;margin-bottom:12px;text-align:center">👤</div>
+          <h2 style="font-size:20px;font-weight:800;text-align:center;margin-bottom:6px">Tell me about yourself</h2>
+          <p style="color:var(--text-muted);text-align:center;font-size:13px;margin-bottom:24px">AI uses this to personalize every post, message, and brief.</p>
+          <div class="form-group">
+            <label class="form-label">Your Name</label>
+            <input type="text" class="form-input" id="ob-name" placeholder="e.g. Rahul Sharma" autofocus>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Domain / What you do</label>
+            <input type="text" class="form-input" id="ob-domain" placeholder="e.g. Full Stack Developer, Data Scientist">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Skills (comma-separated)</label>
+            <input type="text" class="form-input" id="ob-skills" placeholder="e.g. Python, React, Node.js, SQL">
+          </div>
+          <div style="display:flex;gap:10px;margin-top:8px">
+            <button class="btn btn-secondary" onclick="nextStep(1)" style="flex:1">← Back</button>
+            <button class="btn btn-primary" onclick="saveOnboardingProfile()" style="flex:2">Save & Continue →</button>
+          </div>
+        </div>
+
+        <!-- Step 3: API Key -->
+        <div class="onboarding-step" id="step-3" style="display:none">
+          <div style="font-size:40px;margin-bottom:12px;text-align:center">🔑</div>
+          <h2 style="font-size:20px;font-weight:800;text-align:center;margin-bottom:6px">Add Gemini API Key</h2>
+          <p style="color:var(--text-muted);text-align:center;font-size:13px;margin-bottom:24px">This powers all AI features. It's 100% free!</p>
+          <div style="background:rgba(6,182,212,0.08);border:1px solid rgba(6,182,212,0.2);border-radius:var(--radius-md);padding:16px;margin-bottom:20px">
+            <div style="font-size:13px;font-weight:600;color:var(--cyan-400);margin-bottom:8px">How to get your free key:</div>
+            <div style="font-size:13px;color:var(--text-secondary);line-height:1.8">
+              1. Go to <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:var(--cyan-400)">aistudio.google.com/app/apikey</a><br>
+              2. Sign in with Google<br>
+              3. Click "Create API Key"<br>
+              4. Copy the key (starts with AIza...)
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Paste your Gemini API Key</label>
+            <input type="password" class="form-input" id="ob-apikey" placeholder="AIza...">
+          </div>
+          <div style="background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);border-radius:var(--radius-md);padding:12px;margin-bottom:20px;font-size:12px;color:var(--amber-400)">
+            ⚠️ Add this to <code>backend/.env</code> as <code>GEMINI_API_KEY=your_key</code> and restart the server for it to work.
+          </div>
+          <div style="display:flex;gap:10px">
+            <button class="btn btn-secondary" onclick="nextStep(2)" style="flex:1">← Back</button>
+            <button class="btn btn-primary" onclick="finishOnboarding()" style="flex:2">Finish Setup 🎉</button>
+          </div>
+        </div>
+
+        <!-- Step 4: Done -->
+        <div class="onboarding-step" id="step-4" style="display:none">
+          <div style="text-align:center;padding:20px 0">
+            <div style="font-size:64px;margin-bottom:20px;animation:bounceIn 0.6s ease">🎉</div>
+            <h2 style="font-size:24px;font-weight:800;margin-bottom:12px">BRO-BOT is ready!</h2>
+            <p style="color:var(--text-muted);font-size:14px;margin-bottom:28px;line-height:1.8">
+              You're all set. Head to Content Studio to create your first AI post,<br>
+              or Job Hunter to start tracking applications.
+            </p>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <button class="btn btn-primary btn-lg" onclick="closeOnboarding();switchSection('studio')">✨ Create First Post</button>
+              <button class="btn btn-secondary" onclick="closeOnboarding()">Go to Dashboard</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="app-layout">
+    <!-- ═══════════════════ SIDEBAR ═══════════════════ -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-logo">
+        <div class="logo-icon">🤖</div>
+        <div class="logo-text">
+          <h1>BRO-BOT</h1>
+          <p>v2 · AI Life Manager</p>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <span class="nav-section-label">Main</span>
+        <div class="nav-item active" id="nav-dashboard" onclick="switchSection('dashboard')" tabindex="0" role="button" aria-label="Dashboard">
+          <span class="nav-icon">🏠</span><span>Dashboard</span>
+        </div>
+        <div class="nav-item" id="nav-studio" onclick="switchSection('studio')" tabindex="0" role="button" aria-label="Content Studio">
+          <span class="nav-icon">✨</span><span>Content Studio</span>
+        </div>
+        <div class="nav-item" id="nav-queue" onclick="switchSection('queue')" tabindex="0" role="button" aria-label="Post Queue">
+          <span class="nav-icon">📋</span><span>Post Queue</span>
+          <span class="nav-badge" id="queue-badge" style="display:none">0</span>
+        </div>
+        <div class="nav-item" id="nav-calendar" onclick="switchSection('calendar')" tabindex="0" role="button" aria-label="Content Calendar">
+          <span class="nav-icon">📅</span><span>Calendar</span>
+        </div>
+
+        <span class="nav-section-label">Automation</span>
+        <div class="nav-item" id="nav-jobs" onclick="switchSection('jobs')" tabindex="0" role="button" aria-label="Job Hunter">
+          <span class="nav-icon">💼</span><span>Job Hunter</span>
+          <span class="nav-badge" id="jobs-badge" style="display:none">0</span>
+        </div>
+        <div class="nav-item" id="nav-tree" onclick="switchSection('tree')" tabindex="0" role="button" aria-label="Application Tree">
+          <span class="nav-icon">🌳</span><span>App Tree</span>
+        </div>
+        <div class="nav-item" id="nav-deepresearch" onclick="switchSection('deepresearch')" tabindex="0" role="button" aria-label="Deep Research">
+          <span class="nav-icon">🔍</span><span>Deep Research</span>
+        </div>
+        <div class="nav-item" id="nav-cv" onclick="switchSection('cv')" tabindex="0" role="button" aria-label="CV Tailor">
+          <span class="nav-icon">📄</span><span>CV Tailor</span>
+          <span style="font-size:10px;background:linear-gradient(90deg,#7c3aed,#0891b2);color:white;padding:1px 6px;border-radius:99px;font-weight:700;margin-left:auto">AI</span>
+        </div>
+        <div class="nav-item" id="nav-messages" onclick="switchSection('messages')" tabindex="0" role="button" aria-label="Messages">
+          <span class="nav-icon">💬</span><span>Messages</span>
+          <span class="nav-badge" id="messages-badge" style="display:none">0</span>
+        </div>
+        <div class="nav-item" id="nav-brief" onclick="switchSection('brief')" tabindex="0" role="button" aria-label="Daily Brief">
+          <span class="nav-icon">📰</span><span>Daily Brief</span>
+        </div>
+
+        <span class="nav-section-label">System</span>
+        <div class="nav-item" id="nav-help" onclick="switchSection('help')" tabindex="0" role="button" aria-label="Help & Manual">
+          <span class="nav-icon">❓</span><span>How To Use</span>
+        </div>
+        <div class="nav-item" id="nav-settings" onclick="switchSection('settings')" tabindex="0" role="button" aria-label="Settings">
+          <span class="nav-icon">⚙️</span><span>Settings</span>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="status-pill">
+          <div class="status-dot" id="status-dot"></div>
+          <div>
+            <div style="font-size:13px;font-weight:600;color:var(--text-primary)" id="status-text">BRO-BOT Online</div>
+            <div style="font-size:11px;color:var(--text-muted)" id="status-sub">All systems go</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ═══════════════════ MAIN CONTENT ═══════════════════ -->
+    <main class="main-content" id="main-content-area">
+      <header class="topbar">
+        <div class="topbar-title">
+          <h2 id="page-title">Dashboard</h2>
+          <p id="page-subtitle">Your AI life manager at a glance</p>
+        </div>
+        <div class="topbar-actions">
+          <div style="display:flex;align-items:center;gap:6px;background:rgba(6,182,212,0.12);border:1px solid rgba(6,182,212,0.3);padding:6px 12px;border-radius:99px;font-size:12px;font-weight:700;color:var(--cyan-400)">
+            <span style="width:8px;height:8px;border-radius:50%;background:var(--cyan-400);box-shadow:0 0 8px var(--cyan-400);animation:dotPulse 1.5s infinite"></span>
+            🚨 AI Radar: Internet Jobs Monitored 24/7
+          </div>
+          <button class="btn btn-ghost btn-sm" onclick="refreshData()" id="refresh-btn" title="Refresh">🔄 Refresh</button>
+          <button class="btn btn-primary btn-sm" onclick="switchSection('studio')">✨ Create Post</button>
+        </div>
+      </header>
+
+      <!-- ─────────── DASHBOARD ─────────── -->
+      <section class="section active" id="section-dashboard">
+        <div class="dashboard-hero">
+          <div class="hero-greeting"><span id="greeting-emoji">👋</span> Hey <span class="gradient-text" id="hero-name">Bhai</span>!</div>
+          <p class="hero-subtitle" id="hero-subtitle">Here's what's happening with your BRO-BOT today</p>
+          <div class="hero-quick-actions">
+            <button class="btn btn-primary" onclick="switchSection('studio')">✨ Create Post</button>
+            <button class="btn btn-secondary" onclick="switchSection('jobs')">💼 Find Jobs</button>
+            <button class="btn btn-secondary" onclick="generateBrief()">📰 Daily Brief</button>
+            <button class="btn btn-ghost" onclick="switchSection('help')">❓ How to Use</button>
+          </div>
+        </div>
+
+        <div class="stats-grid" id="stats-grid">
+          <div class="stat-card" style="--stat-color:linear-gradient(90deg,#8b5cf6,#06b6d4)">
+            <div class="stat-icon" style="background:rgba(139,92,246,0.15)">📢</div>
+            <div class="stat-value" id="stat-posts">0</div>
+            <div class="stat-label">Posts Published</div>
+            <div class="stat-change neutral">All platforms</div>
+          </div>
+          <div class="stat-card" style="--stat-color:linear-gradient(90deg,#f59e0b,#ef4444)">
+            <div class="stat-icon" style="background:rgba(245,158,11,0.15)">⏳</div>
+            <div class="stat-value" id="stat-pending">0</div>
+            <div class="stat-label">Pending Approval</div>
+            <div class="stat-change neutral" id="stat-pending-sub">Review needed</div>
+          </div>
+          <div class="stat-card" style="--stat-color:linear-gradient(90deg,#06b6d4,#22c55e)">
+            <div class="stat-icon" style="background:rgba(6,182,212,0.15)">💼</div>
+            <div class="stat-value" id="stat-jobs">0</div>
+            <div class="stat-label">Jobs Applied</div>
+            <div class="stat-change neutral">Total applications</div>
+          </div>
+          <div class="stat-card" style="--stat-color:linear-gradient(90deg,#ec4899,#8b5cf6)">
+            <div class="stat-icon" style="background:rgba(236,72,153,0.15)">💬</div>
+            <div class="stat-value" id="stat-messages">0</div>
+            <div class="stat-label">Unread Messages</div>
+            <div class="stat-change neutral">From recruiters</div>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="card">
+            <div class="section-header" style="margin-bottom:16px">
+              <h3 style="font-size:16px;font-weight:700">Recent Activity</h3>
+              <button class="btn btn-ghost btn-sm" onclick="refreshActivity()">Refresh</button>
+            </div>
+            <div class="activity-feed" id="activity-feed"></div>
+          </div>
+          <div class="card">
+            <div class="section-header" style="margin-bottom:16px">
+              <h3 style="font-size:16px;font-weight:700">Quick Actions</h3>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <button class="btn btn-secondary" style="justify-content:flex-start" onclick="switchSection('studio')">✨ Generate AI Post</button>
+              <button class="btn btn-secondary" style="justify-content:flex-start" onclick="switchSection('jobs');setTimeout(()=>scrapeJobsNow(),100)">🔍 Scan for Jobs Now</button>
+              <button class="btn btn-secondary" style="justify-content:flex-start" onclick="generateBrief()">📰 Generate Daily Brief</button>
+              <button class="btn btn-secondary" style="justify-content:flex-start" onclick="switchSection('messages')">💬 View Messages</button>
+              <button class="btn btn-secondary" style="justify-content:flex-start" onclick="showOnboarding()">🎯 Setup Wizard</button>
+            </div>
+            <div class="divider"></div>
+            <div style="font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">System Status</div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div class="settings-row" style="padding:8px 0">
+                <span class="settings-row-label">AI Brain (Gemini)</span>
+                <span class="api-badge missing" id="gemini-status">Not Set</span>
+              </div>
+              <div class="settings-row" style="padding:8px 0">
+                <span class="settings-row-label">Telegram Bot</span>
+                <span class="api-badge missing" id="telegram-status">Not Set</span>
+              </div>
+              <div class="settings-row" style="padding:8px 0">
+                <span class="settings-row-label">Resume Uploaded</span>
+                <span class="api-badge missing" id="resume-status">Not Uploaded</span>
+              </div>
+              <div class="settings-row" style="padding:8px 0">
+                <span class="settings-row-label">Job Scanner</span>
+                <span class="api-badge ok">Ready ✓</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─────────── CONTENT STUDIO ─────────── -->
+      <section class="section" id="section-studio">
+        <div class="section-header">
+          <div>
+            <h2>✨ Content Studio</h2>
+            <p style="color:var(--text-muted);font-size:14px;margin-top:4px">AI-powered post generator — inspired by Buffer, but smarter</p>
+          </div>
+        </div>
+
+        <!-- Quick Templates -->
+        <div class="card" style="margin-bottom:20px">
+          <div style="font-size:14px;font-weight:700;color:var(--text-secondary);margin-bottom:12px">⚡ Quick Templates — pick one to fill the topic automatically</div>
+          <div id="templates-grid" style="display:flex;flex-wrap:wrap;gap:8px">
+            <div style="font-size:13px;color:var(--text-muted)">Loading templates...</div>
+          </div>
+        </div>
+
+        <div class="studio-layout">
+          <!-- Generator Form -->
+          <div>
+            <div class="card">
+              <div class="form-group">
+                <label class="form-label">🎯 What to post about?</label>
+                <textarea class="form-textarea" id="post-topic" placeholder="e.g. I built a React app that saves 2 hours daily — used Context API + custom hooks + local storage..." style="min-height:90px;resize:vertical" maxlength="500" onkeyup="updateTopicCount()"></textarea>
+                <div style="display:flex;justify-content:space-between;margin-top:4px">
+                  <span style="font-size:12px;color:var(--text-muted)">More detail = better posts</span>
+                  <span style="font-size:12px;color:var(--text-muted)" id="topic-count">0/500</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">📱 Platform</label>
+                <div class="platform-pills">
+                  <div class="platform-pill selected" data-platform="linkedin" onclick="selectPlatform('linkedin')"><span>💼</span> LinkedIn</div>
+                  <div class="platform-pill" data-platform="instagram" onclick="selectPlatform('instagram')"><span>📸</span> Instagram</div>
+                  <div class="platform-pill" data-platform="twitter" onclick="selectPlatform('twitter')"><span>🐦</span> Twitter/X</div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">🎭 Tone</label>
+                <select class="form-select" id="post-tone">
+                  <option value="casual">😊 Casual & Friendly</option>
+                  <option value="professional">👔 Professional</option>
+                  <option value="inspirational">🌟 Inspirational</option>
+                  <option value="funny">😄 Funny & Witty</option>
+                </select>
+              </div>
+
+              <div style="display:flex;gap:10px;flex-wrap:wrap">
+                <button class="btn btn-primary" onclick="generatePost()" id="generate-btn" style="flex:1">✨ Generate with AI</button>
+                <button class="btn btn-secondary" onclick="clearStudio()" title="Clear all">🗑️</button>
+              </div>
+            </div>
+
+            <!-- Action panel after generation -->
+            <div id="post-actions-panel" style="display:none;margin-top:16px">
+              <div class="card">
+                <div style="font-size:13px;font-weight:600;color:var(--text-muted);margin-bottom:12px">📤 Add to Queue</div>
+                <div style="display:flex;gap:10px;flex-wrap:wrap">
+                  <button class="btn btn-success" onclick="saveToQueue()" style="flex:1">✅ Save to Queue</button>
+                  <button class="btn btn-primary" onclick="generatePost()" style="flex:1">🔄 Regenerate</button>
+                </div>
+                <div style="margin-top:12px">
+                  <label class="form-label">Schedule for (optional)</label>
+                  <input type="datetime-local" class="form-input" id="schedule-time">
+                </div>
+              </div>
+            </div>
+
+            <!-- Bio Generator -->
+            <div class="card" style="margin-top:16px">
+              <div style="font-size:15px;font-weight:700;margin-bottom:12px">🆔 LinkedIn Bio Generator</div>
+              <div class="form-group">
+                <label class="form-label">Achievements / Context (optional)</label>
+                <input type="text" class="form-input" id="bio-achievements" placeholder="e.g. Built 5 apps, top 10% at NMIMS, open source contributor">
+              </div>
+              <button class="btn btn-secondary" onclick="generateBio()" id="bio-btn">🤖 Generate LinkedIn Bio</button>
+              <div id="bio-result" style="display:none;margin-top:16px">
+                <div style="font-size:13px;font-weight:600;color:var(--text-muted);margin-bottom:8px">Generated Bio:</div>
+                <div class="message-reply" id="bio-text" style="white-space:pre-wrap"></div>
+                <button class="btn btn-ghost btn-sm" onclick="copyText('bio-text')" style="margin-top:8px">📋 Copy</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Preview Panel -->
+          <div>
+            <div class="generated-preview" id="preview-panel">
+              <div class="preview-placeholder" id="preview-placeholder">
+                <div class="preview-placeholder-icon">✨</div>
+                <h3 style="color:var(--text-secondary);font-size:16px">AI Preview</h3>
+                <p style="font-size:13px">Pick a template or write a topic,<br>then click Generate!</p>
+              </div>
+            </div>
+
+            <!-- Twitter char counter (shows only for Twitter) -->
+            <div id="twitter-counter" style="display:none;margin-top:12px">
+              <div class="card" style="padding:16px">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+                  <span style="font-size:13px;font-weight:600">Twitter Character Limit</span>
+                  <span style="font-size:20px;font-weight:800" id="char-count-display">0</span>
+                </div>
+                <div style="height:6px;background:var(--bg-input);border-radius:99px;overflow:hidden">
+                  <div id="char-count-bar" style="height:100%;background:var(--green-500);border-radius:99px;transition:all 0.2s;width:0%"></div>
+                </div>
+                <div style="font-size:12px;color:var(--text-muted);margin-top:6px" id="char-count-msg">0 / 280 characters used</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─────────── POST QUEUE ─────────── -->
+      <section class="section" id="section-queue">
+        <div class="section-header">
+          <div>
+            <h2>📋 Post Queue</h2>
+            <p style="color:var(--text-muted);font-size:14px;margin-top:4px">Review and approve your scheduled posts</p>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <select class="form-select" style="width:auto" id="queue-filter" onchange="filterQueue()">
+              <option value="">All Posts</option>
+              <option value="pending">⏳ Pending</option>
+              <option value="approved">✅ Approved</option>
+              <option value="posted">📤 Posted</option>
+              <option value="rejected">❌ Rejected</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Bulk Action Toolbar (hidden until checkboxes selected) -->
+        <div id="bulk-toolbar" style="display:none;background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.25);border-radius:var(--radius-md);padding:12px 16px;margin-bottom:16px;display:none;align-items:center;gap:12px">
+          <span style="font-size:14px;font-weight:600" id="bulk-count">0 selected</span>
+          <button class="btn btn-success btn-sm" onclick="bulkAction('approve')">✅ Approve All</button>
+          <button class="btn btn-danger btn-sm" onclick="bulkAction('reject')">❌ Reject All</button>
+          <button class="btn btn-ghost btn-sm" onclick="clearBulkSelection()">✕ Deselect</button>
+        </div>
+
+        <div class="posts-grid" id="posts-list"></div>
+      </section>
+
+      <!-- ─────────── CALENDAR ─────────── -->
+      <section class="section" id="section-calendar">
+        <div class="section-header">
+          <div>
+            <h2>📅 Content Calendar</h2>
+            <p style="color:var(--text-muted);font-size:14px;margin-top:4px">Visual overview of your posting schedule</p>
+          </div>
+          <div style="display:flex;gap:10px;align-items:center">
+            <button class="btn btn-ghost btn-sm" onclick="prevMonth()" id="cal-prev">← Prev</button>
+            <span style="font-weight:700;font-size:15px;min-width:140px;text-align:center" id="cal-month-label">September 2026</span>
+            <button class="btn btn-ghost btn-sm" onclick="nextMonth()" id="cal-next">Next →</button>
+          </div>
+        </div>
+        <div class="card" style="overflow:hidden;padding:0">
+          <div id="calendar-grid" style="padding:20px"></div>
+        </div>
+      </section>
+
+      <!-- ─────────── JOB HUNTER ─────────── -->
+      <section class="section" id="section-jobs">
+        <div class="section-header">
+          <div>
+            <h2>💼 Job Hunter</h2>
+            <p style="color:var(--text-muted);font-size:14px;margin-top:4px">Auto-scans Indeed, Naukri, Internshala — tracks all applications</p>
+          </div>
+          <div style="display:flex;gap:10px">
+            <button class="btn btn-secondary" onclick="scrapeJobsNow()" id="scrape-btn">🔍 Scan Jobs Now</button>
+            <button class="btn btn-primary" onclick="showAddJobModal()" id="add-job-btn">➕ Add Manually</button>
+          </div>
+        </div>
+
+        <!-- Scrape config row -->
+        <div class="card" style="margin-bottom:20px;padding:16px">
+          <div style="display:grid;grid-template-columns:1fr 1fr auto;gap:12px;align-items:end">
+            <div class="form-group" style="margin:0">
+              <label class="form-label">Keyword to Search</label>
+              <input type="text" class="form-input" id="scrape-keyword" placeholder="e.g. React Developer">
+            </div>
+            <div class="form-group" style="margin:0">
+              <label class="form-label">Location</label>
+              <input type="text" class="form-input" id="scrape-location" placeholder="e.g. Mumbai or Remote">
+            </div>
+            <button class="btn btn-primary" onclick="scrapeJobsNow()">🔍 Search</button>
+          </div>
+          <div style="font-size:12px;color:var(--text-muted);margin-top:8px">Scans Indeed, Naukri, and Internshala automatically. Results appear below in ~30-60 seconds.</div>
+        </div>
+
+        <!-- Job mini stats -->
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px">
+          <div class="card" style="padding:16px;text-align:center"><div style="font-size:28px;font-weight:800" id="js-new">0</div><div style="font-size:12px;color:var(--text-muted)">New Found</div></div>
+          <div class="card" style="padding:16px;text-align:center"><div style="font-size:28px;font-weight:800;color:var(--cyan-400)" id="js-applied">0</div><div style="font-size:12px;color:var(--text-muted)">Applied</div></div>
+          <div class="card" style="padding:16px;text-align:center"><div style="font-size:28px;font-weight:800;color:var(--green-400)" id="js-interview">0</div><div style="font-size:12px;color:var(--text-muted)">Interviews</div></div>
+          <div class="card" style="padding:16px;text-align:center"><div style="font-size:28px;font-weight:800;color:var(--amber-400)" id="js-total">0</div><div style="font-size:12px;color:var(--text-muted)">Total Tracked</div></div>
+        </div>
+
+        <!-- AI Application Message Generator -->
+        <div class="card" style="margin-bottom:24px">
+          <div style="font-size:15px;font-weight:700;margin-bottom:14px">🤖 AI Application Message Generator</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr auto;gap:12px;align-items:end">
+            <div class="form-group" style="margin:0">
+              <label class="form-label">Company</label>
+              <input type="text" class="form-input" id="msg-company" placeholder="e.g. Infosys">
+            </div>
+            <div class="form-group" style="margin:0">
+              <label class="form-label">Role</label>
+              <input type="text" class="form-input" id="msg-role" placeholder="e.g. Software Engineer">
+            </div>
+            <button class="btn btn-primary" onclick="generateJobMsg()">Generate</button>
+          </div>
+          <div id="job-msg-result" style="display:none;margin-top:16px">
+            <div style="font-size:13px;font-weight:600;color:var(--text-muted);margin-bottom:8px">Application Message (copy this to LinkedIn):</div>
+            <div class="message-reply" id="job-msg-text" style="white-space:pre-wrap"></div>
+            <button class="btn btn-ghost btn-sm" onclick="copyText('job-msg-text')" style="margin-top:8px">📋 Copy to Clipboard</button>
+          </div>
+        </div>
+
+        <div id="jobs-list"></div>
+      </section>
+
+      <!-- ─────────── CV TAILOR (AI AUTO-TAILORED RESUME) ─────────── -->
+      <section class="section" id="section-cv">
+        <div class="section-header">
+          <div>
+            <h2>📄 AI CV Tailor</h2>
+            <p style="color:var(--text-muted);font-size:14px;margin-top:4px">Auto-updates your CV based on any job role & your full project portfolio — ATS optimized</p>
+          </div>
+          <div style="display:flex;gap:10px;align-items:center">
+            <div style="display:flex;align-items:center;gap:6px;background:rgba(34,197,94,0.12);border:1px solid rgba(34,197,94,0.3);padding:6px 12px;border-radius:99px;font-size:12px;font-weight:700;color:var(--green-400)">
+              <span style="width:7px;height:7px;border-radius:50%;background:var(--green-400);box-shadow:0 0 8px var(--green-400);animation:dotPulse 1.5s infinite"></span>
+              🚨 AI Radar: Monitoring 24/7
+            </div>
+          </div>
+        </div>
+
+        <!-- AI Job Radar Status Panel -->
+        <div class="card" style="margin-bottom:24px;background:linear-gradient(135deg,rgba(6,182,212,0.06),rgba(139,92,246,0.04));border-color:rgba(6,182,212,0.2)">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+            <div style="font-size:15px;font-weight:700;color:var(--cyan-400)">🤖 AI Job Radar — Auto-Apply Engine</div>
+            <span style="font-size:11px;background:rgba(34,197,94,0.15);color:var(--green-400);padding:3px 10px;border-radius:99px;font-weight:700">● ACTIVE</span>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+            <div style="background:var(--bg-input);padding:14px;border-radius:var(--radius-md);text-align:center">
+              <div style="font-size:22px;font-weight:800;color:var(--cyan-400)">5 min</div>
+              <div style="font-size:11px;color:var(--text-muted);margin-top:2px">Scan Interval</div>
+            </div>
+            <div style="background:var(--bg-input);padding:14px;border-radius:var(--radius-md);text-align:center">
+              <div style="font-size:22px;font-weight:800;color:var(--purple-400)">6+</div>
+              <div style="font-size:11px;color:var(--text-muted);margin-top:2px">Job Portals</div>
+            </div>
+            <div style="background:var(--bg-input);padding:14px;border-radius:var(--radius-md);text-align:center">
+              <div style="font-size:22px;font-weight:800;color:var(--green-400)">Auto</div>
+              <div style="font-size:11px;color:var(--text-muted);margin-top:2px">CV Generation</div>
+            </div>
+          </div>
+          <div style="margin-top:14px;font-size:13px;color:var(--text-secondary);line-height:1.6">
+            ⚡ When a <strong>new job post</strong> is detected on Indeed/Naukri/LinkedIn, BRO-BOT auto-generates a <strong>tailored CV + cover letter</strong> and updates the job status. Get instant Telegram alerts.
+          </div>
+        </div>
+
+        <!-- Manual CV Tailor Generator -->
+        <div class="two-col" style="margin-bottom:24px">
+          <!-- Left: Input Panel -->
+          <div class="card">
+            <div style="font-weight:700;font-size:16px;margin-bottom:14px">🎯 Generate Tailored CV for Any Role</div>
+            <div class="form-group">
+              <label class="form-label">Target Job Role *</label>
+              <input type="text" class="form-input" id="cv-job-role" placeholder="e.g. Backend Engineer, AI/ML Developer, Full Stack"
+                oninput="updateCVRolePreview()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Target Company (optional)</label>
+              <input type="text" class="form-input" id="cv-company" placeholder="e.g. Google, Razorpay, Infosys">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Paste Job Description (for better ATS match)</label>
+              <textarea class="form-textarea" id="cv-jd" rows="4"
+                placeholder="Paste the full job description here to maximize your ATS keyword match score..."></textarea>
+            </div>
+            <button class="btn btn-primary" style="width:100%;margin-top:4px" id="cv-tailor-btn" onclick="tailorCVStandalone()">
+              🤖 Auto-Tailor My CV with AI
+            </button>
+          </div>
+
+          <!-- Right: ATS Score Preview -->
+          <div class="card" id="cv-result-preview" style="display:flex;flex-direction:column;justify-content:center;align-items:center;min-height:300px">
+            <div id="cv-empty-state" style="text-align:center">
+              <div style="font-size:56px;margin-bottom:12px">📄</div>
+              <div style="font-weight:700;font-size:16px;color:var(--text-primary);margin-bottom:8px">AI-Tailored CV Preview</div>
+              <div style="font-size:13px;color:var(--text-muted);line-height:1.7">Enter a job role and click<br><em>"Auto-Tailor My CV"</em> to generate<br>an ATS-optimized resume instantly.</div>
+            </div>
+            <div id="cv-score-display" style="display:none;width:100%">
+              <div style="text-align:center;margin-bottom:20px">
+                <div style="font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">ATS Match Score</div>
+                <div style="font-size:64px;font-weight:900;background:linear-gradient(135deg,var(--cyan-400),var(--purple-500));-webkit-background-clip:text;-webkit-text-fill-color:transparent" id="cv-ats-big-score">92%</div>
+              </div>
+              <div style="margin-bottom:14px">
+                <div style="font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:8px">ATS Keywords Matched</div>
+                <div id="cv-matched-keywords" style="display:flex;gap:4px;flex-wrap:wrap"></div>
+              </div>
+              <div style="margin-bottom:14px">
+                <div style="font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:4px">Tailored Headline</div>
+                <div id="cv-tailored-headline" style="font-weight:600;color:var(--cyan-400);font-size:14px"></div>
+              </div>
+              <div style="margin-bottom:16px">
+                <div style="font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:4px">Professional Summary</div>
+                <div id="cv-professional-summary" style="font-size:13px;color:var(--text-secondary);line-height:1.6"></div>
+              </div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap">
+                <button class="btn btn-primary btn-sm" onclick="openTailoredCVModalFromCV()">👁️ View & Print Full CV</button>
+                <button class="btn btn-secondary btn-sm" onclick="copyTailoredMarkdown()">📋 Copy Markdown</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Key Optimizations -->
+        <div class="card" id="cv-optimizations-card" style="display:none;margin-bottom:24px">
+          <div style="font-size:14px;font-weight:700;margin-bottom:12px">✅ AI Optimization Notes</div>
+          <div id="cv-optimizations-list" style="display:flex;flex-direction:column;gap:8px"></div>
+        </div>
+
+        <!-- Master Projects Portfolio -->
+        <div class="card">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+            <div>
+              <div style="font-size:15px;font-weight:700">🚀 Master Projects Portfolio</div>
+              <div style="font-size:12px;color:var(--text-muted);margin-top:2px">AI picks the most relevant projects for each job role automatically</div>
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="showAddProjectModal()">➕ Add Project</button>
+          </div>
+          <div id="cv-master-projects-list" style="display:flex;flex-direction:column;gap:12px">
+            <div class="empty-state" style="padding:20px">
+              <div class="empty-state-icon">🗂️</div>
+              <p>Loading projects...</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─────────── APPLICATION TREE (PHASE 3) ─────────── -->
+      <section class="section" id="section-tree">
+        <div class="section-header">
+          <div>
+            <h2>🌳 Application Tree</h2>
+            <p style="color:var(--text-muted);font-size:14px;margin-top:4px">Hierarchical view of all target companies, roles, and application timelines</p>
+          </div>
+          <button class="btn btn-primary" onclick="loadAppTree()">🔄 Refresh Tree</button>
+        </div>
+        <div id="app-tree-container">
+          <div class="empty-state"><div class="empty-state-icon">🌳</div><h3>Loading Application Tree...</h3></div>
+        </div>
+      </section>
+
+      <!-- ─────────── DEEP RESEARCH & SMART APPLY (PHASE 3) ─────────── -->
+      <section class="section" id="section-deepresearch">
+        <div class="section-header">
+          <div>
+            <h2>🔍 DeepSeek Company Research & Smart Apply</h2>
+            <p style="color:var(--text-muted);font-size:14px;margin-top:4px">DeepSeek AI researches companies, analyzes job fit score, and preps 1-click apply packages</p>
+          </div>
+        </div>
+
+        <div class="two-col" style="margin-bottom:24px">
+          <!-- Research Input -->
+          <div class="card">
+            <div style="font-weight:700;font-size:16px;margin-bottom:14px">🏢 Research Target Company</div>
+            <div class="form-group">
+              <label class="form-label">Company Name</label>
+              <input type="text" class="form-input" id="dr-company" placeholder="e.g. Razorpay, Google, CRED">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Role Target (optional)</label>
+              <input type="text" class="form-input" id="dr-role" placeholder="e.g. Backend Engineer">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Job Posting URL (for Smart Apply)</label>
+              <input type="url" class="form-input" id="dr-url" placeholder="https://linkedin.com/jobs/view/...">
+            </div>
+            <div style="display:flex;gap:10px;margin-top:16px">
+              <button class="btn btn-primary" onclick="runCompanyResearch()" id="dr-btn" style="flex:1">🔍 Research Company</button>
+              <button class="btn btn-success" onclick="runSmartApplyPrep()" id="sa-btn" style="flex:1">⚡ Smart Apply Prep</button>
+            </div>
+          </div>
+
+          <!-- Fit Score Calculator -->
+          <div class="card">
+            <div style="font-weight:700;font-size:16px;margin-bottom:14px">📊 AI Job Fit Score Calculator</div>
+            <div class="form-group">
+              <label class="form-label">Job Description / Requirements</label>
+              <textarea class="form-textarea" id="fit-jd" placeholder="Paste the job description here to calculate your resume fit score..." style="min-height:110px"></textarea>
+            </div>
+            <button class="btn btn-secondary" onclick="calcFitScore()" id="fit-btn" style="width:100%">📊 Calculate Resume Fit Score</button>
+            <div id="fit-score-result" style="display:none;margin-top:16px" class="card">
+              <div style="display:flex;align-items:center;justify-content:space-between">
+                <span style="font-size:14px;font-weight:600">Match Score</span>
+                <span style="font-size:28px;font-weight:800;color:var(--cyan-400)" id="fit-score-val">0%</span>
+              </div>
+              <div style="font-weight:700;margin-top:4px" id="fit-verdict"></div>
+              <div style="font-size:12px;color:var(--text-muted);margin-top:8px" id="fit-details"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Research Results Display -->
+        <div id="research-results-display" style="display:none">
+          <div class="card">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+              <div>
+                <h3 style="font-size:20px;font-weight:800" id="res-company-name">Company Name</h3>
+                <p style="color:var(--cyan-400);font-size:13px" id="res-tagline">Tagline</p>
+              </div>
+              <span class="platform-badge linkedin" id="res-domain">Tech</span>
+            </div>
+
+            <div class="two-col" style="margin-bottom:16px">
+              <div>
+                <div style="font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase">Tech Stack</div>
+                <div id="res-tech-stack" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px"></div>
+              </div>
+              <div>
+                <div style="font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase">Estimated Salary</div>
+                <div id="res-salary" style="font-weight:700;color:var(--green-400);margin-top:4px"></div>
+              </div>
+            </div>
+
+            <div style="margin-bottom:16px">
+              <div style="font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase">Culture & WFH</div>
+              <p style="font-size:14px;color:var(--text-secondary);margin-top:4px" id="res-culture"></p>
+            </div>
+
+            <div class="two-col" style="margin-bottom:16px">
+              <div>
+                <div style="font-size:12px;font-weight:700;color:var(--green-400);text-transform:uppercase">Pros</div>
+                <ul id="res-pros" style="font-size:13px;color:var(--text-secondary);padding-left:18px;margin-top:4px"></ul>
+              </div>
+              <div>
+                <div style="font-size:12px;font-weight:700;color:var(--red-400);text-transform:uppercase">Cons / Red Flags</div>
+                <ul id="res-cons" style="font-size:13px;color:var(--text-secondary);padding-left:18px;margin-top:4px"></ul>
+              </div>
+            </div>
+
+            <div style="background:var(--bg-input);padding:14px;border-radius:var(--radius-md);margin-bottom:16px">
+              <div style="font-size:12px;font-weight:700;color:var(--purple-400);text-transform:uppercase">Interview Process & Rounds</div>
+              <div id="res-rounds" style="font-size:13px;color:var(--text-secondary);margin-top:6px"></div>
+            </div>
+
+            <div style="background:rgba(6,182,212,0.08);border:1px solid rgba(6,182,212,0.2);padding:14px;border-radius:var(--radius-md)">
+              <div style="font-size:12px;font-weight:700;color:var(--cyan-400);text-transform:uppercase">💡 Insider Application Tip</div>
+              <div id="res-tips" style="font-size:13px;color:var(--text-secondary);margin-top:6px"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Smart Apply Prep Artifacts Display -->
+        <div id="smart-apply-display" style="display:none;margin-top:24px">
+          <div class="card" style="border-color:var(--green-500)">
+            <div style="font-size:18px;font-weight:800;color:var(--green-400);margin-bottom:16px">⚡ Smart Apply Package Ready!</div>
+            
+            <div style="margin-bottom:16px">
+              <div style="font-size:13px;font-weight:700;color:var(--text-secondary);margin-bottom:6px">1. LinkedIn Connection Note</div>
+              <div class="message-reply" id="sa-conn-note"></div>
+              <button class="btn btn-ghost btn-sm" onclick="copyText('sa-conn-note')" style="margin-top:6px">📋 Copy Connection Note</button>
+            </div>
+
+            <div style="margin-bottom:16px">
+              <div style="font-size:13px;font-weight:700;color:var(--text-secondary);margin-bottom:6px">2. AI Tailored Cover Letter</div>
+              <div class="message-reply" id="sa-cover-letter" style="white-space:pre-wrap"></div>
+              <button class="btn btn-ghost btn-sm" onclick="copyText('sa-cover-letter')" style="margin-top:6px">📋 Copy Cover Letter</button>
+            </div>
+
+            <div style="margin-bottom:16px">
+              <div style="font-size:13px;font-weight:700;color:var(--text-secondary);margin-bottom:6px">3. 📄 AI Tailored CV (ATS Optimized)</div>
+              <div style="background:var(--bg-input);padding:14px;border-radius:var(--radius-md);display:flex;align-items:center;justify-content:space-between">
+                <div>
+                  <div style="font-weight:700;font-size:14px" id="sa-cv-headline">Tailored Software Engineer CV</div>
+                  <div style="font-size:12px;color:var(--text-muted);margin-top:2px">ATS Score Match: <span id="sa-cv-score" class="fit-badge fit-high">92%</span></div>
+                </div>
+                <button class="btn btn-secondary btn-sm" onclick="openTailoredCVModalFromSA()">👁️ View & Print Tailored CV</button>
+              </div>
+            </div>
+
+            <div style="display:flex;gap:10px;margin-top:16px">
+              <a href="#" target="_blank" id="sa-job-link" class="btn btn-primary btn-lg" style="flex:1;justify-content:center">🚀 Open Job Posting & Submit Application</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─────────── MESSAGES ─────────── -->
+      <section class="section" id="section-messages">
+        <div class="section-header">
+          <div>
+            <h2>💬 Messages</h2>
+            <p style="color:var(--text-muted);font-size:14px;margin-top:4px">Recruiter messages with AI reply drafts</p>
+          </div>
+          <button class="btn btn-primary" onclick="showAddMessageModal()">➕ Add Message</button>
+        </div>
+        <div id="messages-list"></div>
+      </section>
+
+      <!-- ─────────── DAILY BRIEF ─────────── -->
+      <section class="section" id="section-brief">
+        <div class="section-header">
+          <div>
+            <h2>📰 Daily Brief</h2>
+            <p style="color:var(--text-muted);font-size:14px;margin-top:4px">Your AI-generated daily update — sent to Telegram every morning</p>
+          </div>
+          <div style="display:flex;gap:10px">
+            <button class="btn btn-secondary" onclick="sendBriefToTelegram()" id="send-brief-btn">📲 Send to Telegram</button>
+            <button class="btn btn-primary" onclick="generateBrief()" id="brief-gen-btn">🤖 Generate Brief</button>
+          </div>
+        </div>
+        <div class="brief-card">
+          <div style="font-size:13px;font-weight:700;color:var(--purple-400);text-transform:uppercase;letter-spacing:1px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between">
+            <span>🤖 Today's Brief</span>
+            <span style="font-weight:400;color:var(--text-muted)" id="brief-date"></span>
+          </div>
+          <div class="brief-text" id="brief-text" style="color:var(--text-muted)">
+            Click "Generate Brief" to get your personalized AI update for today.
+
+The brief will include:
+  📢 Post activity summary
+  💼 Job hunting progress
+  💬 Recruiter message updates
+  🎯 Suggestions for the day</div>
+          <div style="margin-top:20px;display:flex;gap:10px" id="brief-actions" style="display:none">
+            <button class="btn btn-ghost btn-sm" onclick="copyText('brief-text')">📋 Copy Brief</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─────────── HELP / MANUAL ─────────── -->
+      <section class="section" id="section-help">
+        <div class="section-header">
+          <h2>❓ How To Use BRO-BOT</h2>
+        </div>
+
+        <!-- Compared to competitors -->
+        <div class="card" style="margin-bottom:24px;background:linear-gradient(135deg,rgba(139,92,246,0.08),rgba(6,182,212,0.04));border-color:rgba(139,92,246,0.2)">
+          <div style="font-size:16px;font-weight:700;margin-bottom:16px">🌍 How BRO-BOT Compares Globally</div>
+          <div style="overflow-x:auto">
+            <table style="width:100%;border-collapse:collapse;font-size:13px">
+              <thead>
+                <tr>
+                  <th style="text-align:left;padding:8px 12px;color:var(--text-muted);font-weight:600">Feature</th>
+                  <th style="padding:8px 12px;color:#60b8e6;font-weight:600">Buffer<br><span style="font-size:11px;font-weight:400">$6/mo</span></th>
+                  <th style="padding:8px 12px;color:#94a3b8;font-weight:600">Hootsuite<br><span style="font-size:11px;font-weight:400">$99/mo</span></th>
+                  <th style="padding:8px 12px;color:#94a3b8;font-weight:600">n8n<br><span style="font-size:11px;font-weight:400">Complex</span></th>
+                  <th style="padding:8px 12px;color:#94a3b8;font-weight:600">Simplify<br><span style="font-size:11px;font-weight:400">Freemium</span></th>
+                  <th style="padding:8px 12px;color:var(--purple-400);font-weight:700">BRO-BOT<br><span style="font-size:11px;font-weight:400">🆓 FREE</span></th>
+                </tr>
+              </thead>
+              <tbody id="comparison-table">
+                <tr style="border-top:1px solid var(--glass-border)"><td style="padding:8px 12px;color:var(--text-secondary)">AI Post Generation</td><td style="text-align:center;padding:8px">✅ Basic</td><td style="text-align:center;padding:8px">✅ Advanced</td><td style="text-align:center;padding:8px">🔧 DIY</td><td style="text-align:center;padding:8px">❌</td><td style="text-align:center;padding:8px;color:var(--green-400);font-weight:700">✅ Gemini AI</td></tr>
+                <tr style="border-top:1px solid var(--glass-border)"><td style="padding:8px 12px;color:var(--text-secondary)">Job Tracking</td><td style="text-align:center;padding:8px">❌</td><td style="text-align:center;padding:8px">❌</td><td style="text-align:center;padding:8px">🔧 DIY</td><td style="text-align:center;padding:8px">✅</td><td style="text-align:center;padding:8px;color:var(--green-400);font-weight:700">✅ + Auto-scan</td></tr>
+                <tr style="border-top:1px solid var(--glass-border)"><td style="padding:8px 12px;color:var(--text-secondary)">Recruiter Reply AI</td><td style="text-align:center;padding:8px">❌</td><td style="text-align:center;padding:8px">❌</td><td style="text-align:center;padding:8px">❌</td><td style="text-align:center;padding:8px">❌</td><td style="text-align:center;padding:8px;color:var(--green-400);font-weight:700">✅ Auto-draft</td></tr>
+                <tr style="border-top:1px solid var(--glass-border)"><td style="padding:8px 12px;color:var(--text-secondary)">Daily Brief</td><td style="text-align:center;padding:8px">❌</td><td style="text-align:center;padding:8px">❌</td><td style="text-align:center;padding:8px">🔧 DIY</td><td style="text-align:center;padding:8px">❌</td><td style="text-align:center;padding:8px;color:var(--green-400);font-weight:700">✅ Telegram</td></tr>
+                <tr style="border-top:1px solid var(--glass-border)"><td style="padding:8px 12px;color:var(--text-secondary)">100% Private</td><td style="text-align:center;padding:8px">❌ Cloud</td><td style="text-align:center;padding:8px">❌ Cloud</td><td style="text-align:center;padding:8px">✅ Local</td><td style="text-align:center;padding:8px">❌ Cloud</td><td style="text-align:center;padding:8px;color:var(--green-400);font-weight:700">✅ 100% Local</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Step-by-step guides -->
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div class="help-step">
+            <div class="help-step-num">1</div>
+            <div>
+              <div class="help-step-title">🔑 Get Gemini API Key (Free)</div>
+              <div class="help-step-body">Go to <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:var(--cyan-400)">aistudio.google.com/app/apikey</a> → Sign in → Create API Key → Copy it. Then add to <code>backend/.env</code> as <code>GEMINI_API_KEY=AIza...</code> and restart the server.</div>
+            </div>
+          </div>
+          <div class="help-step">
+            <div class="help-step-num">2</div>
+            <div>
+              <div class="help-step-title">👤 Set Your Profile</div>
+              <div class="help-step-body">Go to <strong>Settings → Your Profile</strong>. Fill in your name, domain (e.g. "Full Stack Developer"), and skills. This makes all AI outputs personalized to YOU — not generic.</div>
+            </div>
+          </div>
+          <div class="help-step">
+            <div class="help-step-num">3</div>
+            <div>
+              <div class="help-step-title">📄 Upload Your Resume</div>
+              <div class="help-step-body">Go to <strong>Settings → Resume Upload</strong>. Upload your PDF resume. BRO-BOT will extract the text and use it to write more accurate job application messages and personalized posts.</div>
+            </div>
+          </div>
+          <div class="help-step">
+            <div class="help-step-num">4</div>
+            <div>
+              <div class="help-step-title">✨ Create a Post</div>
+              <div class="help-step-body">Go to <strong>Content Studio</strong>. Pick a template or write a topic. Select platform (LinkedIn/Instagram/Twitter). Pick tone. Click <em>Generate with AI</em>. Edit if needed. Save to Queue.</div>
+            </div>
+          </div>
+          <div class="help-step">
+            <div class="help-step-num">5</div>
+            <div>
+              <div class="help-step-title">📋 Approve Posts</div>
+              <div class="help-step-body">Go to <strong>Post Queue</strong>. All generated posts sit here waiting for your approval. Click ✅ Approve to mark them ready. Then manually copy-paste to LinkedIn/Instagram (Phase 2 will auto-post).</div>
+            </div>
+          </div>
+          <div class="help-step">
+            <div class="help-step-num">6</div>
+            <div>
+              <div class="help-step-title">💼 Hunt for Jobs</div>
+              <div class="help-step-body">Go to <strong>Job Hunter</strong>. Type a keyword and location, click <em>Scan Jobs Now</em>. BRO-BOT will scrape Indeed, Naukri, and Internshala and show results in ~60 seconds. Click ✅ Applied when you apply.</div>
+            </div>
+          </div>
+          <div class="help-step">
+            <div class="help-step-num">7</div>
+            <div>
+              <div class="help-step-title">💬 Handle Recruiter Messages</div>
+              <div class="help-step-body">Got a LinkedIn message from a recruiter? Go to <strong>Messages → Add Message</strong>. Paste the message. Click <em>🤖 Generate Reply</em>. AI writes a professional reply. Copy it and reply on LinkedIn.</div>
+            </div>
+          </div>
+          <div class="help-step">
+            <div class="help-step-num">8</div>
+            <div>
+              <div class="help-step-title">📲 Set Up Telegram Daily Brief</div>
+              <div class="help-step-body">1. Message <a href="https://t.me/botfather" target="_blank" style="color:var(--cyan-400)">@BotFather</a> on Telegram → /newbot → get your token.<br>2. Message your new bot, then visit <code>api.telegram.org/bot&lt;TOKEN&gt;/getUpdates</code> to find your Chat ID.<br>3. Add both to <code>backend/.env</code>. Restart server. BRO-BOT sends you a brief every morning at 8 AM IST!</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─────────── SETTINGS ─────────── -->
+      <section class="section" id="section-settings">
+        <div class="section-header"><h2>⚙️ Settings</h2></div>
+
+        <!-- Profile -->
+        <div class="settings-section">
+          <div class="settings-section-header">
+            <span style="font-size:22px">👤</span>
+            <div><h3>Your Profile</h3><p>Used by AI to personalize everything</p></div>
+          </div>
+          <div class="settings-section-body">
+            <div class="two-col">
+              <div class="form-group"><label class="form-label">Your Name</label><input type="text" class="form-input" id="cfg-name" placeholder="e.g. Rahul Sharma"></div>
+              <div class="form-group"><label class="form-label">Domain / Role</label><input type="text" class="form-input" id="cfg-domain" placeholder="e.g. Full Stack Developer"></div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Skills (press Enter to add)</label>
+              <div class="tag-area" id="skills-tag-area" onclick="document.getElementById('skill-input').focus()">
+                <input type="text" id="skill-input" style="background:transparent;border:none;outline:none;color:var(--text-primary);font-family:inherit;font-size:14px;min-width:120px;flex:1" placeholder="Add skill..." onkeydown="handleSkillInput(event)">
+              </div>
+            </div>
+            <button class="btn btn-primary" onclick="saveProfile()">💾 Save Profile</button>
+          </div>
+        </div>
+
+        <!-- Resume Upload -->
+        <div class="settings-section">
+          <div class="settings-section-header">
+            <span style="font-size:22px">📄</span>
+            <div><h3>Resume Upload</h3><p>AI uses your resume to personalize job messages and posts</p></div>
+          </div>
+          <div class="settings-section-body">
+            <div id="resume-upload-area">
+              <div style="background:var(--bg-input);border:2px dashed var(--glass-border);border-radius:var(--radius-lg);padding:32px;text-align:center;margin-bottom:16px;transition:var(--transition);cursor:pointer" id="resume-drop-zone" onclick="document.getElementById('resume-file-input').click()" ondragover="event.preventDefault();this.style.borderColor='var(--purple-500)'" ondragleave="this.style.borderColor='var(--glass-border)'" ondrop="handleResumeDrop(event)">
+                <div style="font-size:36px;margin-bottom:8px">📄</div>
+                <div style="font-weight:600;color:var(--text-secondary)">Click to upload or drag & drop your resume</div>
+                <div style="font-size:13px;color:var(--text-muted);margin-top:4px">PDF format only · Max 10MB</div>
+              </div>
+              <input type="file" id="resume-file-input" accept=".pdf" style="display:none" onchange="uploadResume(this)">
+            </div>
+            <div id="resume-status-box" style="display:none;background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);border-radius:var(--radius-md);padding:16px">
+              <div style="font-size:14px;font-weight:600;color:var(--green-400);margin-bottom:8px">✅ Resume uploaded!</div>
+              <div style="font-size:13px;color:var(--text-secondary)" id="resume-preview-text"></div>
+              <button class="btn btn-ghost btn-sm" style="margin-top:10px" onclick="document.getElementById('resume-file-input').click()">Replace Resume</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- API Keys -->
+        <div class="settings-section">
+          <div class="settings-section-header">
+            <span style="font-size:22px">🔑</span>
+            <div><h3>API Keys</h3><p>Add these to backend/.env and restart the server</p></div>
+          </div>
+          <div class="settings-section-body">
+            <div class="form-group">
+              <label class="form-label">Google Gemini API Key <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:var(--cyan-400);font-size:12px;margin-left:8px">Get free key →</a></label>
+              <input type="password" class="form-input" id="cfg-gemini" placeholder="AIza...">
+              <div style="font-size:12px;color:var(--text-muted);margin-top:6px">Add to <code>backend/.env</code> as <code>GEMINI_API_KEY=AIza...</code></div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">DeepSeek API Key <a href="https://platform.deepseek.com" target="_blank" style="color:var(--cyan-400);font-size:12px;margin-left:8px">Get DeepSeek Key →</a></label>
+              <input type="password" class="form-input" id="cfg-deepseek" placeholder="sk-...">
+              <div style="font-size:12px;color:var(--text-muted);margin-top:6px">Add to <code>backend/.env</code> as <code>DEEPSEEK_API_KEY=sk-...</code> (optional: falls back to Gemini if omitted)</div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Telegram Bot Token <a href="https://t.me/botfather" target="_blank" style="color:var(--cyan-400);font-size:12px;margin-left:8px">Create bot →</a></label>
+              <input type="password" class="form-input" id="cfg-tg-token" placeholder="123456:ABC-DEF...">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Telegram Chat ID</label>
+              <input type="text" class="form-input" id="cfg-tg-chat" placeholder="Your Telegram user ID">
+              <div style="font-size:12px;color:var(--text-muted);margin-top:6px">After starting bot, visit: api.telegram.org/bot&lt;TOKEN&gt;/getUpdates</div>
+            </div>
+            <div style="display:flex;gap:10px">
+              <button class="btn btn-primary" onclick="showEnvInstructions()">📋 Show .env Instructions</button>
+              <button class="btn btn-secondary" onclick="testTelegram()">📲 Test Telegram</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Job Preferences -->
+        <div class="settings-section">
+          <div class="settings-section-header">
+            <span style="font-size:22px">💼</span>
+            <div><h3>Job Hunting Preferences</h3><p>Keywords for auto job scanning</p></div>
+          </div>
+          <div class="settings-section-body">
+            <div class="form-group">
+              <label class="form-label">Job Keywords (press Enter to add)</label>
+              <div class="tag-area" id="keywords-tag-area" onclick="document.getElementById('keyword-input').focus()">
+                <input type="text" id="keyword-input" style="background:transparent;border:none;outline:none;color:var(--text-primary);font-family:inherit;font-size:14px;min-width:160px;flex:1" placeholder="Add job title..." onkeydown="handleKeywordInput(event)">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Preferred Locations (comma-separated)</label>
+              <input type="text" class="form-input" id="cfg-locations" placeholder="e.g. Mumbai, Bangalore, Remote">
+            </div>
+            <div class="two-col">
+              <div class="form-group">
+                <label class="form-label">Experience Level</label>
+                <select class="form-select" id="cfg-exp">
+                  <option value="fresher">Fresher / Entry Level</option>
+                  <option value="1-3">1-3 Years</option>
+                  <option value="3-5">3-5 Years</option>
+                  <option value="5+">5+ Years</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Daily Brief Time (IST)</label>
+                <input type="time" class="form-input" id="cfg-brief-time" value="08:00">
+              </div>
+            </div>
+            <button class="btn btn-primary" onclick="saveJobPrefs()">💾 Save Job Preferences</button>
+          </div>
+        </div>
+
+        <!-- Master Projects Portfolio Card -->
+        <div class="card" style="margin-top:24px">
+          <div class="settings-section-header">
+            <span style="font-size:22px">🚀</span>
+            <div><h3>Master Projects Experience Portfolio</h3><p>Projects & Work Experience for AI Resume Tailoring</p></div>
+          </div>
+          <div class="settings-section-body">
+            <div id="master-projects-list" style="display:flex;flex-direction:column;gap:12px;margin-bottom:16px">
+              <!-- Dynamically rendered -->
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="showAddProjectModal()">➕ Add New Project / Experience</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ═══ MODALS ═══ -->
+  <div id="modal-add-job" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);z-index:1000;align-items:center;justify-content:center" onclick="closeModal('modal-add-job')">
+    <div class="card" style="width:500px;max-width:90vw;animation:fadeSlideIn 0.3s ease" onclick="event.stopPropagation()">
+      <div style="font-size:18px;font-weight:700;margin-bottom:20px">➕ Add Job to Tracker</div>
+      <div class="form-group"><label class="form-label">Company</label><input type="text" class="form-input" id="job-company" placeholder="e.g. Google"></div>
+      <div class="form-group"><label class="form-label">Role / Position</label><input type="text" class="form-input" id="job-role" placeholder="e.g. Software Engineer"></div>
+      <div class="two-col">
+        <div class="form-group"><label class="form-label">Location</label><input type="text" class="form-input" id="job-location" placeholder="e.g. Bangalore / Remote"></div>
+        <div class="form-group"><label class="form-label">Salary (optional)</label><input type="text" class="form-input" id="job-salary" placeholder="e.g. ₹12-15 LPA"></div>
+      </div>
+      <div class="form-group"><label class="form-label">Job URL</label><input type="url" class="form-input" id="job-url" placeholder="https://linkedin.com/jobs/..."></div>
+      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px">
+        <button class="btn btn-secondary" onclick="closeModal('modal-add-job')">Cancel</button>
+        <button class="btn btn-primary" onclick="addJob()">💾 Add Job</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal-add-message" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);z-index:1000;align-items:center;justify-content:center" onclick="closeModal('modal-add-message')">
+    <div class="card" style="width:500px;max-width:90vw;animation:fadeSlideIn 0.3s ease" onclick="event.stopPropagation()">
+      <div style="font-size:18px;font-weight:700;margin-bottom:20px">📩 Add Recruiter Message</div>
+      <div class="two-col">
+        <div class="form-group"><label class="form-label">Sender Name</label><input type="text" class="form-input" id="msg-sender" placeholder="e.g. Priya (HR, Infosys)"></div>
+        <div class="form-group"><label class="form-label">Platform</label><select class="form-select" id="msg-platform"><option value="LinkedIn">LinkedIn</option><option value="Email">Email</option><option value="WhatsApp">WhatsApp</option><option value="Other">Other</option></select></div>
+      </div>
+      <div class="form-group"><label class="form-label">Message Content</label><textarea class="form-textarea" id="msg-content" placeholder="Paste the recruiter's message here..."></textarea></div>
+      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px">
+        <button class="btn btn-secondary" onclick="closeModal('modal-add-message')">Cancel</button>
+        <button class="btn btn-primary" onclick="addMessage()">💾 Save & Generate Reply</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ENV Instructions Modal -->
+  <div id="modal-env" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);z-index:1000;align-items:center;justify-content:center" onclick="closeModal('modal-env')">
+    <div class="card" style="width:560px;max-width:90vw;animation:fadeSlideIn 0.3s ease" onclick="event.stopPropagation()">
+      <div style="font-size:18px;font-weight:700;margin-bottom:16px">📋 How to add API keys</div>
+      <div style="background:#0a0a14;border:1px solid var(--glass-border);border-radius:var(--radius-md);padding:16px;font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--green-400);margin-bottom:16px">
+        <div style="color:var(--text-muted);margin-bottom:8px"># backend/.env</div>
+        <div id="env-content"></div>
+      </div>
+      <div style="font-size:13px;color:var(--text-secondary);margin-bottom:16px">1. Open the file <code>AI Assistent/backend/.env</code><br>2. Paste the keys shown above<br>3. Save the file<br>4. Restart the backend server</div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-primary" onclick="copyEnvContent()">📋 Copy All</button>
+        <button class="btn btn-secondary" onclick="closeModal('modal-env')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tailored CV View Modal -->
+  <div id="modal-tailored-cv" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(10px);z-index:1100;align-items:center;justify-content:center;overflow-y:auto;padding:20px" onclick="closeModal('modal-tailored-cv')">
+    <div class="card" style="width:900px;max-width:95vw;max-height:90vh;overflow-y:auto;background:var(--bg-surface)" onclick="event.stopPropagation()">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;border-bottom:1px solid var(--glass-border);padding-bottom:12px">
+        <div>
+          <div style="font-size:18px;font-weight:800;color:var(--cyan-400)">📄 AI Tailored CV Preview</div>
+          <div style="font-size:12px;color:var(--text-muted)">ATS Optimized for <span id="cv-modal-role-title" style="color:var(--purple-400);font-weight:700"></span></div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-primary btn-sm" onclick="printTailoredCV()">🖨️ Print / Save as PDF</button>
+          <button class="btn btn-secondary btn-sm" onclick="copyTailoredMarkdown()">📋 Copy Markdown</button>
+          <button class="btn btn-ghost btn-sm" onclick="closeModal('modal-tailored-cv')">✖</button>
+        </div>
+      </div>
+
+      <div style="background:var(--bg-input);padding:12px 16px;border-radius:var(--radius-md);margin-bottom:16px;display:flex;align-items:center;gap:12px">
+        <span style="font-size:13px;font-weight:700;color:var(--text-secondary)">ATS Keyword Match:</span>
+        <span id="cv-modal-ats-score" class="fit-badge fit-high">94%</span>
+        <div id="cv-modal-keywords" style="display:flex;gap:4px;flex-wrap:wrap"></div>
+      </div>
+
+      <!-- Live Printable HTML Paper Container -->
+      <div id="cv-modal-paper-container"></div>
+    </div>
+  </div>
+
+  <!-- Add Master Project Modal -->
+  <div id="modal-add-project" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);z-index:1000;align-items:center;justify-content:center" onclick="closeModal('modal-add-project')">
+    <div class="card" style="width:540px;max-width:90vw;animation:fadeSlideIn 0.3s ease" onclick="event.stopPropagation()">
+      <div style="font-size:18px;font-weight:700;margin-bottom:16px">🚀 Add / Edit Master Project</div>
+      <div class="form-group"><label class="form-label">Project / Experience Title</label><input type="text" class="form-input" id="proj-title-input" placeholder="e.g. DeadMan Smart Contract Protocol"></div>
+      <div class="form-group"><label class="form-label">Domain / Category</label><input type="text" class="form-input" id="proj-domain-input" placeholder="e.g. Full-Stack / Web3 / AI"></div>
+      <div class="form-group"><label class="form-label">Tech Tags (comma-separated)</label><input type="text" class="form-input" id="proj-tags-input" placeholder="e.g. React, Node.js, Ethereum, Python"></div>
+      <div class="form-group"><label class="form-label">Bullet Points (one per line)</label><textarea class="form-textarea" id="proj-bullets-input" rows="4" placeholder="Architected full stack application...&#10;Integrated real-time APIs..."></textarea></div>
+      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px">
+        <button class="btn btn-secondary" onclick="closeModal('modal-add-project')">Cancel</button>
+        <button class="btn btn-primary" onclick="saveMasterProject()">💾 Save Project</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

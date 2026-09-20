@@ -1,0 +1,23 @@
+# Environment variables & secrets (CRITICAL)
+backend/.env
+.env
+
+# Python bytecode & cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# IDE & OS files
+.DS_Store
+.vscode/
+.idea/
+
+# Local database temp data
+*.sqlite3
