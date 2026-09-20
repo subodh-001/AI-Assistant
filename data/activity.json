@@ -1259,5 +1259,33 @@
     "description": "BRO-BOT v2 started up \ud83d\ude80",
     "meta": {},
     "timestamp": "2026-09-21T00:28:26.103359"
+  },
+  {
+    "id": "e127f745-19a5-430f-8d6d-4e57b6083ffd",
+    "type": "system_stop",
+    "description": "BRO-BOT shut down",
+    "meta": {},
+    "timestamp": "2026-09-21T00:29:43.136741"
+  },
+  {
+    "id": "4337ff02-c800-40ef-8745-378b162e1073",
+    "type": "system_start",
+    "description": "BRO-BOT v2 started up \ud83d\ude80",
+    "meta": {},
+    "timestamp": "2026-09-21T00:29:45.634009"
+  },
+  {
+    "id": "241e4c31-56a0-46b2-b553-a3ab42229475",
+    "type": "otp_sent",
+    "description": "Verification OTP 415417 sent to test.user@example.com",
+    "meta": {},
+    "timestamp": "2026-09-21T00:29:48.077459"
+  },
+  {
+    "id": "12413ec9-7a04-46e0-a3ee-4457a107482c",
+    "type": "account_created",
+    "description": "Account verified & created for test.user@example.com",
+    "meta": {},
+    "timestamp": "2026-09-21T00:29:51.581646"
   }
 ]
