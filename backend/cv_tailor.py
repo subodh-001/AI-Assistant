@@ -59,7 +59,7 @@ Job Description / Requirements:
 {job_description if job_description else 'Focus on software development, problem solving, full-stack development, AI/ML or relevant technical skills.'}
 
 Candidate Base Resume:
-{base_resume_text[:2000] if base_resume_text else 'Subodh Ram - MCA Graduate, Full-Stack & AI Developer.'}
+{base_resume_text[:2000] if base_resume_text else 'Software Engineer & Technology Professional.'}
 
 Candidate's Master Project Portfolio:
 {projects_context}
@@ -144,14 +144,17 @@ def generate_html_resume(cv_data: Dict[str, Any], base_resume_text: str) -> str:
     for cat, items in skills.items():
         skills_html += f"<p><strong>{cat}:</strong> {items}</p>"
 
+    candidate_name = (user_profile.get("name") if user_profile else "").upper() or "CANDIDATE NAME"
+    candidate_email = (user_profile.get("email") if user_profile else "") or "candidate@email.com"
+    candidate_location = (user_profile.get("location") if user_profile else "") or "India"
+
     html = f"""
     <div class="tailored-cv-paper">
         <header class="cv-header">
-            <h1 class="cv-name">SUBODH RAM</h1>
+            <h1 class="cv-name">{candidate_name}</h1>
             <p class="cv-headline">{headline}</p>
             <p class="cv-contact">
-                Mumbai, Maharashtra | +91-9076314255 | subodhram3350@gmail.com<br/>
-                LinkedIn: subodhram | GitHub: subodh-001 | Portfolio: subodh-portfolio-zeta.vercel.app
+                {candidate_location} | {candidate_email}
             </p>
         </header>
 

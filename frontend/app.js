@@ -1561,6 +1561,21 @@ async function loginWithGoogleEmail(email, name = '') {
   }
 }
 
+function handleGoogleSignInButtonClick() {
+  if (state.googleClientId && typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+    try {
+      google.accounts.id.prompt();
+      return;
+    } catch (e) {}
+  }
+  const box = document.getElementById('custom-google-email-box');
+  if (box) {
+    box.style.display = box.style.display === 'none' ? 'block' : 'none';
+    const input = document.getElementById('custom-google-email-input');
+    if (input && box.style.display !== 'none') input.focus();
+  }
+}
+
 function loginWithCustomGoogleEmail() {
   const input = document.getElementById('custom-google-email-input');
   const email = input ? input.value.trim() : '';

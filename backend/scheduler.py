@@ -146,7 +146,7 @@ def _scan_jobs():
                         cover_letter = deep_research.generate_cover_letter(
                             company=item["company"],
                             role=item["role"],
-                            applicant_name=config.get("profile", {}).get("name", "Subodh Ram"),
+                            applicant_name=config.get("profile", {}).get("name", "Applicant"),
                             resume_text=resume_text
                         )
 

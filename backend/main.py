@@ -914,7 +914,7 @@ async def auth_me():
     """Return current server-side auth info (profile defaults)."""
     return {
         "success": True,
-        "server_name": os.getenv("YOUR_NAME", "Subodh Ram"),
+        "server_name": os.getenv("YOUR_NAME", "CareerPilot User"),
         "google_configured": bool(os.getenv("GOOGLE_CLIENT_ID", "").strip()),
     }
 
