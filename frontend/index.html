@@ -1592,17 +1592,51 @@ The brief will include:
         <div style="flex:1;height:1px;background:var(--glass-border)"></div>
       </div>
 
-      <!-- Email fallback -->
-      <form onsubmit="loginWithEmail(event)" style="text-align:left">
+      <!-- Step 1: Send OTP Form -->
+      <form id="auth-email-step1" onsubmit="handleSendOTP(event)" style="text-align:left">
         <div class="form-group">
           <label class="form-label">Email Address</label>
           <input type="email" class="form-input" id="auth-email-input" placeholder="your@email.com" required>
         </div>
         <div class="form-group">
-          <label class="form-label">Password</label>
-          <input type="password" class="form-input" id="auth-password-input" placeholder="••••••••" required>
+          <label class="form-label">Full Name (optional for account creation)</label>
+          <input type="text" class="form-input" id="auth-name-input" placeholder="e.g. Rahul Sharma">
         </div>
-        <button type="submit" class="btn btn-primary" style="width:100%;margin-top:8px">Sign In / Register</button>
+        <button type="submit" id="send-otp-btn" class="btn btn-primary" style="width:100%;margin-top:8px;padding:12px;font-weight:700">
+          📩 Send 6-Digit Verification OTP
+        </button>
+      </form>
+
+      <!-- Step 2: Verify OTP Form (shown after sending OTP) -->
+      <form id="auth-email-step2" onsubmit="handleVerifyOTP(event)" style="display:none;text-align:left;animation:fadeSlideIn 0.3s ease">
+        <div style="background:rgba(6,182,212,0.08);border:1px solid rgba(6,182,212,0.25);border-radius:12px;padding:14px;margin-bottom:16px">
+          <div style="font-size:12px;font-weight:700;color:var(--cyan-400);margin-bottom:4px">📩 Verification OTP Sent</div>
+          <div style="font-size:12px;color:var(--text-secondary)">
+            Code sent to <strong id="otp-sent-email-display" style="color:white">user@email.com</strong>
+          </div>
+          <div id="otp-code-alert-box" style="margin-top:8px;background:var(--bg-card);border:1px solid var(--purple-500);border-radius:8px;padding:8px 12px;font-size:13px;color:var(--purple-300);font-weight:700;display:flex;align-items:center;justify-content:space-between">
+            <span>🔑 OTP Code: <span id="otp-demo-code-text" style="color:var(--cyan-400);font-size:16px;letter-spacing:2px">123456</span></span>
+            <button type="button" class="btn btn-ghost btn-sm" onclick="autoFillOTP()" style="font-size:11px">Auto-fill ⚡</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Enter 6-Digit OTP Code</label>
+          <input type="text" class="form-input" id="auth-otp-input" placeholder="••••••" maxlength="6" required style="letter-spacing:8px;font-size:20px;font-weight:800;text-align:center">
+        </div>
+
+        <button type="submit" id="verify-otp-btn" class="btn btn-primary" style="width:100%;margin-top:8px;padding:12px;font-weight:700">
+          🚀 Verify OTP &amp; Create Account
+        </button>
+
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
+          <a href="javascript:void(0)" onclick="resetOTPForm()" style="font-size:12px;color:var(--text-muted);text-decoration:none">
+            ← Change Email
+          </a>
+          <a href="javascript:void(0)" onclick="resendOTP()" style="font-size:12px;color:var(--cyan-400);text-decoration:none">
+            Resend OTP 🔄
+          </a>
+        </div>
       </form>
 
       <!-- Optional Developer Setup Guide accordion -->
