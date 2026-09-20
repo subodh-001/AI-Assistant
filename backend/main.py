@@ -797,40 +797,82 @@ async def update_tree_status(req: UpdateTreeNodeStatusRequest):
 
 
 # ─────────────────────────────────────────────────────────
-#  AUTHENTICATION ENDPOINTS
+#  AUTHENTICATION ENDPOINTS (Real Google OAuth 2.0)
 # ─────────────────────────────────────────────────────────
 
 class AuthRequest(BaseModel):
-    token: Optional[str] = None
-    email: Optional[str] = "subodhram3350@gmail.com"
-    name: Optional[str] = "Subodh Ram"
+    token: Optional[str] = None         # Google JWT credential from GIS
+    email: Optional[str] = None
+    name: Optional[str] = None
+
+
+@app.get("/api/auth/google-client-id")
+async def get_google_client_id():
+    """Return the Google OAuth Client ID so the frontend can initialize GIS."""
+    client_id = os.getenv("GOOGLE_CLIENT_ID", "").strip()
+    return {
+        "configured": bool(client_id),
+        "client_id": client_id if client_id else None,
+    }
 
 
 @app.post("/api/auth/google")
 async def auth_google(req: AuthRequest):
-    user = {
-        "id": "usr_google_subodh",
-        "name": req.name or "Subodh Ram",
-        "email": req.email or "subodhram3350@gmail.com",
-        "provider": "google",
-        "avatar": "S",
-        "authenticated": True
-    }
-    ds.log_activity("user_login", f"User {user['email']} signed in via Google OAuth")
-    return {"success": True, "user": user}
+    """
+    Verify a real Google Identity Services (GIS) credential JWT.
+    The frontend sends the credential token from google.accounts.id callback.
+    We verify it against Google's public keys using google-auth library.
+    """
+    client_id = os.getenv("GOOGLE_CLIENT_ID", "").strip()
+
+    if not req.token:
+        raise HTTPException(status_code=400, detail="Google credential token is required")
+
+    if client_id:
+        # Real Google JWT verification
+        try:
+            from google.oauth2 import id_token as google_id_token
+            from google.auth.transport import requests as google_requests
+            idinfo = google_id_token.verify_oauth2_token(
+                req.token,
+                google_requests.Request(),
+                client_id,
+            )
+            # Token verified ✔️ — extract user info
+            user = {
+                "id": f"google_{idinfo['sub']}",
+                "name": idinfo.get("name", "Google User"),
+                "email": idinfo.get("email", ""),
+                "picture": idinfo.get("picture", ""),
+                "provider": "google",
+                "avatar": idinfo.get("name", "G")[0].upper(),
+                "authenticated": True,
+                "verified": True,
+            }
+            ds.log_activity("user_login", f"Google OAuth verified: {user['email']}")
+            return {"success": True, "user": user}
+        except ValueError as e:
+            logger.warning(f"Google token verification failed: {e}")
+            raise HTTPException(status_code=401, detail=f"Invalid Google credential: {str(e)}")
+        except Exception as e:
+            logger.error(f"Google auth error: {e}")
+            raise HTTPException(status_code=500, detail="Google authentication failed")
+    else:
+        # GOOGLE_CLIENT_ID not configured — return helpful error
+        logger.warning("GOOGLE_CLIENT_ID not set. Cannot verify Google JWT.")
+        raise HTTPException(
+            status_code=503,
+            detail="Google Sign-In not configured. Add GOOGLE_CLIENT_ID to backend/.env"
+        )
 
 
 @app.get("/api/auth/me")
 async def auth_me():
+    """Return current server-side auth info (profile defaults)."""
     return {
         "success": True,
-        "user": {
-            "id": "usr_google_subodh",
-            "name": os.getenv("YOUR_NAME", "Subodh Ram"),
-            "email": "subodhram3350@gmail.com",
-            "provider": "google",
-            "authenticated": True
-        }
+        "server_name": os.getenv("YOUR_NAME", "Subodh Ram"),
+        "google_configured": bool(os.getenv("GOOGLE_CLIENT_ID", "").strip()),
     }
 
 

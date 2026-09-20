@@ -1525,35 +1525,52 @@ The brief will include:
         <button class="btn btn-primary" onclick="saveMasterProject()">💾 Save Project</button>
       </div>
     </div>
-  <!-- Authentication Modal (Google Sign-In & Email/Password) -->
-  <div id="modal-auth" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);z-index:1000;align-items:center;justify-content:center" onclick="closeModal('modal-auth')">
-    <div class="card" style="width:440px;max-width:90vw;animation:fadeSlideIn 0.3s ease;text-align:center;padding:32px" onclick="event.stopPropagation()">
-      <div style="font-size:36px;margin-bottom:8px">🤖</div>
-      <div style="font-size:20px;font-weight:800;margin-bottom:4px">Welcome to BRO-BOT AI</div>
-      <p style="color:var(--text-muted);font-size:13px;margin-bottom:24px">Sign in to manage your AI Career Agent & Master Projects</p>
+  <!-- Authentication Modal (Google Sign-In) -->
+  <div id="modal-auth" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.82);backdrop-filter:blur(12px);z-index:1000;align-items:center;justify-content:center" onclick="closeModal('modal-auth')">
+    <div class="card" style="width:460px;max-width:92vw;animation:fadeSlideIn 0.3s ease;text-align:center;padding:36px 32px;position:relative" onclick="event.stopPropagation()">
+      <!-- Close button -->
+      <button onclick="closeModal('modal-auth')" style="position:absolute;top:16px;right:16px;background:none;border:none;color:var(--text-muted);font-size:20px;cursor:pointer;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:8px" title="Close">&times;</button>
 
-      <!-- Google OAuth Button -->
-      <button class="btn-google" style="width:100%;margin-bottom:20px" onclick="loginWithGoogle()">
-        <svg viewBox="0 0 24 24">
-          <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/>
-          <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.27v3.13C3.26 21.3 7.31 24 12 24z"/>
-          <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.6H1.27C.46 8.23 0 10.06 0 12s.46 3.77 1.27 5.4l4.01-3.13z"/>
-          <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.26 2.7 1.27 6.6l4.01 3.13c.95-2.83 3.6-4.98 6.72-4.98z"/>
-        </svg>
-        Sign in with Google
-      </button>
+      <!-- Header -->
+      <div style="font-size:44px;margin-bottom:8px">🚀</div>
+      <div style="font-size:22px;font-weight:900;margin-bottom:4px">CareerPilot AI</div>
+      <p style="color:var(--text-muted);font-size:13px;margin-bottom:28px">Sign in to activate your 24/7 Autonomous Career Agent</p>
 
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+      <!-- REAL Google Sign-In Button (rendered by Google GIS SDK) -->
+      <div id="google-gis-btn-container" style="margin-bottom:16px;display:flex;justify-content:center;min-height:44px;align-items:center">
+        <!-- Google GIS renders the real button here -->
+        <div id="google-gis-loading" style="color:var(--text-muted);font-size:13px">Loading Google Sign-In...</div>
+      </div>
+
+      <!-- Setup guide shown when GOOGLE_CLIENT_ID is not configured -->
+      <div id="google-setup-guide" style="display:none;background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.3);border-radius:12px;padding:16px;text-align:left;margin-bottom:16px">
+        <div style="font-size:13px;font-weight:700;color:var(--amber-400);margin-bottom:10px">⚙️ Google Sign-In Setup Required</div>
+        <div style="font-size:12px;color:var(--text-secondary);line-height:1.9">
+          <b>Step 1.</b> Go to <a href="https://console.cloud.google.com/" target="_blank" style="color:var(--cyan-400)">console.cloud.google.com</a><br>
+          <b>Step 2.</b> APIs &amp; Services → Credentials → Create OAuth 2.0 Client ID<br>
+          <b>Step 3.</b> Type: <strong>Web application</strong>. Add Authorized JS Origin:<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<code style="background:var(--bg-card);padding:1px 6px;border-radius:4px;font-size:11px">http://localhost:8000</code><br>
+          <b>Step 4.</b> Copy the Client ID and add to <code style="background:var(--bg-card);padding:1px 6px;border-radius:4px;font-size:11px">backend/.env</code>:<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<code style="background:var(--bg-card);padding:2px 8px;border-radius:4px;font-size:11px">GOOGLE_CLIENT_ID=your_client_id_here</code><br>
+          <b>Step 5.</b> Restart the backend server.
+        </div>
+        <div style="margin-top:12px;display:flex;align-items:center;gap:8px">
+          <input type="text" id="quick-client-id-input" class="form-input" placeholder="Paste Google Client ID here (ends in .apps.googleusercontent.com)" style="font-size:11px;flex:1">
+          <button class="btn btn-primary" style="font-size:12px;padding:8px 12px;white-space:nowrap" onclick="applyClientIdAndReload()">Apply &amp; Reload</button>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
         <div style="flex:1;height:1px;background:var(--glass-border)"></div>
-        <span style="font-size:11px;color:var(--text-muted);font-weight:600">OR LOGIN WITH EMAIL</span>
+        <span style="font-size:11px;color:var(--text-muted);font-weight:600">OR CONTINUE WITH EMAIL</span>
         <div style="flex:1;height:1px;background:var(--glass-border)"></div>
       </div>
 
-      <!-- Email / Password Form -->
+      <!-- Email fallback -->
       <form onsubmit="loginWithEmail(event)" style="text-align:left">
         <div class="form-group">
           <label class="form-label">Email Address</label>
-          <input type="email" class="form-input" id="auth-email-input" placeholder="subodh@example.com" required>
+          <input type="email" class="form-input" id="auth-email-input" placeholder="your@email.com" required>
         </div>
         <div class="form-group">
           <label class="form-label">Password</label>
@@ -1561,9 +1578,15 @@ The brief will include:
         </div>
         <button type="submit" class="btn btn-primary" style="width:100%;margin-top:8px">Sign In / Register</button>
       </form>
+
+      <p style="font-size:11px;color:var(--text-muted);margin-top:16px;line-height:1.5">
+        By signing in, you agree to our terms. Your data stays on your server.
+      </p>
     </div>
   </div>
 
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <script src="app.js"></script>
 </body>
 </html>
+
