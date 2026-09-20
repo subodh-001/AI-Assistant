@@ -180,13 +180,17 @@
         </div>
       </nav>
 
-      <div class="sidebar-footer">
+      <div class="sidebar-footer" style="display:flex;flex-direction:column;gap:10px">
         <div class="status-pill">
           <div class="status-dot" id="status-dot"></div>
           <div>
             <div style="font-size:13px;font-weight:600;color:var(--text-primary)" id="status-text">CareerPilot Online</div>
             <div style="font-size:11px;color:var(--text-muted)" id="status-sub">All systems go</div>
           </div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-secondary btn-sm" onclick="openUserProfileModal()" style="flex:1;font-size:12px;display:flex;align-items:center;justify-content:center;gap:4px">👤 Profile</button>
+          <button class="btn btn-danger btn-sm" onclick="logoutUser()" style="flex:1;font-size:12px;display:flex;align-items:center;justify-content:center;gap:4px">🚪 Logout</button>
         </div>
       </div>
     </aside>
@@ -1431,6 +1435,29 @@ The brief will include:
               <!-- Dynamically rendered -->
             </div>
             <button class="btn btn-secondary btn-sm" onclick="showAddProjectModal()">➕ Add New Project / Experience</button>
+        <!-- Account Security & Password Reset -->
+        <div class="settings-section" style="margin-top:24px">
+          <div class="settings-section-header">
+            <span style="font-size:22px">🔒</span>
+            <div><h3>Account Security &amp; Password Reset</h3><p>Manage your login credentials and session security</p></div>
+          </div>
+          <div class="settings-section-body">
+            <form onsubmit="handlePasswordResetSubmit(event)">
+              <div class="two-col">
+                <div class="form-group">
+                  <label class="form-label">New Password</label>
+                  <input type="password" class="form-input" id="cfg-reset-pwd-new" placeholder="At least 6 characters" required minlength="6">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Confirm New Password</label>
+                  <input type="password" class="form-input" id="cfg-reset-pwd-confirm" placeholder="Re-enter new password" required minlength="6">
+                </div>
+              </div>
+              <div style="display:flex;gap:12px;align-items:center;margin-top:8px">
+                <button type="submit" class="btn btn-primary">🔑 Change / Reset Password</button>
+                <button type="button" class="btn btn-danger" onclick="logoutUser()">🚪 Logout of Session</button>
+              </div>
+            </form>
           </div>
         </div>
       </section>
@@ -1601,6 +1628,79 @@ The brief will include:
       <p style="font-size:11px;color:var(--text-muted);margin-top:14px;line-height:1.5">
         By signing in, you agree to our terms. Your data is encrypted and saved securely.
       </p>
+  <!-- User Profile & Account Settings Modal -->
+  <div id="modal-user-profile" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.82);backdrop-filter:blur(12px);z-index:1000;align-items:center;justify-content:center" onclick="closeModal('modal-user-profile')">
+    <div class="card" style="width:520px;max-width:92vw;animation:fadeSlideIn 0.3s ease;padding:32px;position:relative" onclick="event.stopPropagation()">
+      <!-- Close button -->
+      <button onclick="closeModal('modal-user-profile')" style="position:absolute;top:16px;right:16px;background:none;border:none;color:var(--text-muted);font-size:20px;cursor:pointer;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:8px" title="Close">&times;</button>
+
+      <!-- Profile Header Banner -->
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--glass-border)">
+        <div id="profile-modal-avatar" style="width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--purple-600),var(--cyan-500));display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;color:white;box-shadow:0 8px 24px rgba(124,58,237,0.3)">
+          U
+        </div>
+        <div style="flex:1">
+          <div id="profile-modal-name" style="font-size:20px;font-weight:800">User Name</div>
+          <div id="profile-modal-email" style="font-size:13px;color:var(--text-muted);margin-top:2px">user@gmail.com</div>
+          <div style="margin-top:6px;display:flex;gap:8px;align-items:center">
+            <span id="profile-modal-provider-badge" class="badge badge-purple" style="font-size:11px">Google Auth</span>
+            <span class="badge badge-cyan" style="font-size:11px">Verified User</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabs for Profile Info vs Password Reset -->
+      <div style="display:flex;gap:10px;margin-bottom:20px;border-bottom:1px solid var(--glass-border);padding-bottom:10px">
+        <button id="profile-tab-btn-info" class="btn btn-secondary btn-sm" onclick="switchProfileModalTab('info')" style="font-weight:700">👤 Profile Details</button>
+        <button id="profile-tab-btn-security" class="btn btn-ghost btn-sm" onclick="switchProfileModalTab('security')" style="font-weight:700">🔑 Password &amp; Security</button>
+      </div>
+
+      <!-- Tab 1: Profile Details Form -->
+      <div id="profile-tab-info">
+        <div class="form-group">
+          <label class="form-label">Full Name</label>
+          <input type="text" class="form-input" id="profile-input-name" placeholder="Your Name">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Primary Email Address</label>
+          <input type="email" class="form-input" id="profile-input-email" placeholder="your@email.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Target Tech Role / Title</label>
+          <input type="text" class="form-input" id="profile-input-role" placeholder="e.g. Senior Software Engineer">
+        </div>
+        <button class="btn btn-primary" style="width:100%;margin-top:8px" onclick="saveUserProfileModal()">💾 Save Profile Changes</button>
+      </div>
+
+      <!-- Tab 2: Password Reset Form -->
+      <div id="profile-tab-security" style="display:none">
+        <div style="background:rgba(6,182,212,0.08);border:1px solid rgba(6,182,212,0.2);border-radius:10px;padding:12px;margin-bottom:16px;font-size:12px;color:var(--cyan-400)">
+          🔒 Secure Password Reset: Enter your new password below to update your account login credentials.
+        </div>
+        <form onsubmit="handlePasswordResetSubmit(event)">
+          <div class="form-group">
+            <label class="form-label">Current Password (optional)</label>
+            <input type="password" class="form-input" id="reset-pwd-current" placeholder="••••••••">
+          </div>
+          <div class="form-group">
+            <label class="form-label">New Password</label>
+            <input type="password" class="form-input" id="reset-pwd-new" placeholder="At least 6 characters" required minlength="6">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Confirm New Password</label>
+            <input type="password" class="form-input" id="reset-pwd-confirm" placeholder="Re-enter new password" required minlength="6">
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%;margin-top:8px">🔑 Reset &amp; Update Password</button>
+        </form>
+      </div>
+
+      <!-- Divider & Logout Button -->
+      <div style="margin-top:24px;padding-top:16px;border-top:1px solid var(--glass-border);display:flex;align-items:center;justify-content:space-between">
+        <span style="font-size:12px;color:var(--text-muted)">Active Session</span>
+        <button class="btn btn-danger" onclick="closeModal('modal-user-profile');logoutUser()" style="padding:10px 20px;font-weight:700">
+          🚪 Logout / Sign Out
+        </button>
+      </div>
     </div>
   </div>
 

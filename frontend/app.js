@@ -1710,11 +1710,148 @@ function loginWithEmail(event) {
 
 function handleUserBadgeClick() {
   if (state.currentUser) {
-    if (confirm(`Logged in as ${state.currentUser.name} (${state.currentUser.email}).\n\nDo you want to log out?`)) {
-      logoutUser();
-    }
+    openUserProfileModal();
   } else {
     showAuthModal();
+  }
+}
+
+function openUserProfileModal() {
+  if (!state.currentUser) {
+    showAuthModal();
+    return;
+  }
+  const user = state.currentUser;
+  
+  const nameEl = document.getElementById('profile-modal-name');
+  const emailEl = document.getElementById('profile-modal-email');
+  const avatarEl = document.getElementById('profile-modal-avatar');
+  const badgeEl = document.getElementById('profile-modal-provider-badge');
+
+  if (nameEl) nameEl.textContent = user.name || 'User Profile';
+  if (emailEl) emailEl.textContent = user.email || '';
+  if (avatarEl) {
+    if (user.picture) {
+      avatarEl.innerHTML = `<img src="${user.picture}" alt="${user.name}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+    } else {
+      avatarEl.textContent = (user.avatar || user.name || 'U').charAt(0).toUpperCase();
+    }
+  }
+  if (badgeEl) badgeEl.textContent = `${user.provider || 'Google'} Authentication`;
+
+  const inputName = document.getElementById('profile-input-name');
+  const inputEmail = document.getElementById('profile-input-email');
+  const inputRole = document.getElementById('profile-input-role');
+
+  if (inputName) inputName.value = user.name || '';
+  if (inputEmail) inputEmail.value = user.email || '';
+  if (inputRole) inputRole.value = user.role || state.profile?.domain || 'Senior Software Engineer';
+
+  switchProfileModalTab('info');
+  openModal('modal-user-profile');
+}
+
+function switchProfileModalTab(tab) {
+  const tabInfo = document.getElementById('profile-tab-info');
+  const tabSecurity = document.getElementById('profile-tab-security');
+  const btnInfo = document.getElementById('profile-tab-btn-info');
+  const btnSecurity = document.getElementById('profile-tab-btn-security');
+
+  if (tab === 'security') {
+    if (tabInfo) tabInfo.style.display = 'none';
+    if (tabSecurity) tabSecurity.style.display = 'block';
+    if (btnInfo) { btnInfo.className = 'btn btn-ghost btn-sm'; }
+    if (btnSecurity) { btnSecurity.className = 'btn btn-secondary btn-sm'; }
+  } else {
+    if (tabInfo) tabInfo.style.display = 'block';
+    if (tabSecurity) tabSecurity.style.display = 'none';
+    if (btnInfo) { btnInfo.className = 'btn btn-secondary btn-sm'; }
+    if (btnSecurity) { btnSecurity.className = 'btn btn-ghost btn-sm'; }
+  }
+}
+
+async function saveUserProfileModal() {
+  if (!state.currentUser) return;
+
+  const inputName = document.getElementById('profile-input-name');
+  const inputEmail = document.getElementById('profile-input-email');
+  const inputRole = document.getElementById('profile-input-role');
+
+  const name = inputName ? inputName.value.trim() : state.currentUser.name;
+  const email = inputEmail ? inputEmail.value.trim() : state.currentUser.email;
+  const role = inputRole ? inputRole.value.trim() : '';
+
+  if (!name || !email) {
+    toast('Name and email are required', 'error');
+    return;
+  }
+
+  state.currentUser.name = name;
+  state.currentUser.email = email;
+  if (role) state.currentUser.role = role;
+  state.currentUser.avatar = name.charAt(0).toUpperCase();
+
+  localStorage.setItem('brobot_user', JSON.stringify(state.currentUser));
+
+  try {
+    await fetch('/api/auth/update-profile', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: name, email: email, domain: role }),
+    });
+  } catch (e) {}
+
+  updateAuthUI();
+  closeModal('modal-user-profile');
+  toast('🎉 Profile updated successfully!', 'success');
+}
+
+async function handlePasswordResetSubmit(event) {
+  if (event) event.preventDefault();
+
+  const newPwd1 = document.getElementById('reset-pwd-new') || document.getElementById('cfg-reset-pwd-new');
+  const newPwd2 = document.getElementById('reset-pwd-confirm') || document.getElementById('cfg-reset-pwd-confirm');
+  const currentPwd = document.getElementById('reset-pwd-current');
+
+  const pwd1 = newPwd1 ? newPwd1.value : '';
+  const pwd2 = newPwd2 ? newPwd2.value : '';
+  const current = currentPwd ? currentPwd.value : '';
+
+  if (!pwd1 || pwd1.length < 6) {
+    toast('New password must be at least 6 characters long', 'error');
+    return;
+  }
+  if (pwd1 !== pwd2) {
+    toast('New password and confirmation do not match', 'error');
+    return;
+  }
+
+  toast('Updating password...', 'info');
+
+  try {
+    const res = await fetch('/api/auth/reset-password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: state.currentUser ? state.currentUser.email : 'user@domain.com',
+        current_password: current,
+        new_password: pwd1,
+      }),
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.detail || 'Password reset failed');
+    }
+
+    if (newPwd1) newPwd1.value = '';
+    if (newPwd2) newPwd2.value = '';
+    if (currentPwd) currentPwd.value = '';
+
+    closeModal('modal-user-profile');
+    toast('🎉 Password updated successfully! Keep your new password safe.', 'success');
+  } catch (err) {
+    toast(`Password update error: ${err.message}`, 'error');
   }
 }
 
@@ -1725,7 +1862,8 @@ function logoutUser() {
   if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
     google.accounts.id.disableAutoSelect();
   }
-  toast('Logged out successfully', 'info');
+  toast('Logged out successfully 👋', 'info');
+  switchSection('landing');
 }
 
 

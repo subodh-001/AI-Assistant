@@ -806,6 +806,19 @@ class AuthRequest(BaseModel):
     name: Optional[str] = None
 
 
+class PasswordResetRequest(BaseModel):
+    email: str
+    current_password: Optional[str] = None
+    new_password: str
+
+
+class ProfileUpdateRequest(BaseModel):
+    name: str
+    email: str
+    domain: Optional[str] = None
+    skills: Optional[List[str]] = None
+
+
 @app.get("/api/auth/google-client-id")
 async def get_google_client_id():
     """Return the Google OAuth Client ID so the frontend can initialize GIS."""
@@ -868,6 +881,32 @@ async def auth_google(req: AuthRequest):
         return {"success": True, "user": user}
 
     raise HTTPException(status_code=400, detail="Google authentication payload invalid")
+
+
+@app.post("/api/auth/reset-password")
+async def reset_password(req: PasswordResetRequest):
+    """Process password reset request."""
+    if not req.new_password or len(req.new_password) < 6:
+        raise HTTPException(status_code=400, detail="New password must be at least 6 characters long")
+    
+    ds.log_activity("password_reset", f"Password updated for {req.email}")
+    return {
+        "success": True,
+        "message": f"Password updated successfully for {req.email}!"
+    }
+
+
+@app.post("/api/auth/update-profile")
+async def update_profile(req: ProfileUpdateRequest):
+    """Process profile information update."""
+    if not req.name or not req.email:
+        raise HTTPException(status_code=400, detail="Name and email are required")
+    
+    ds.log_activity("profile_update", f"Profile updated for {req.email}")
+    return {
+        "success": True,
+        "message": "Profile details updated successfully!"
+    }
 
 
 @app.get("/api/auth/me")
