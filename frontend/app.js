@@ -3,7 +3,7 @@
  * New: templates, char counter, calendar, bulk approve, resume upload, job scraping, onboarding, offline detection
  */
 
-const API = 'http://localhost:8000/api';
+const API = window.location.origin.includes('localhost') ? '/api' : '/api';
 
 // ─────────────────────────────────────────────────────────
 //  STATE

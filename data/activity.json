@@ -1053,5 +1053,162 @@
     "description": "Google Sign-In: subodhram3350@gmail.com",
     "meta": {},
     "timestamp": "2026-09-21T00:17:43.585086"
+  },
+  {
+    "id": "1618a446-fdfb-4882-b871-d2577b60d4a2",
+    "type": "user_login",
+    "description": "Google Sign-In: subodhram3350@gmail.com",
+    "meta": {},
+    "timestamp": "2026-09-21T00:20:10.519693"
+  },
+  {
+    "id": "98d62757-fb51-4c92-b5c5-f9bbcc1a7941",
+    "type": "job_scrape_started",
+    "description": "Job scraping started: cyber security",
+    "meta": {},
+    "timestamp": "2026-09-21T00:21:42.606237"
+  },
+  {
+    "id": "09d2488e-01da-45ae-9e6b-51e6e3894ed1",
+    "type": "job_found",
+    "description": "New job: CYBER SECURITY ANALYST L3 at Wipro",
+    "meta": {
+      "job_id": "57dcb91d-bcdb-4a7c-b5f8-91cd9e7d6d2b"
+    },
+    "timestamp": "2026-09-21T00:21:48.147794"
+  },
+  {
+    "id": "a20bab4a-27ba-4eb1-bbc3-546c6ee130da",
+    "type": "job_found",
+    "description": "New job: Security Analyst / Sr. Security Analyst at Nio Stars Technologies LLP",
+    "meta": {
+      "job_id": "7649e22d-7e7d-49cd-8903-fd5f802d6aec"
+    },
+    "timestamp": "2026-09-21T00:21:48.150459"
+  },
+  {
+    "id": "9c44fd62-e851-4927-b0d2-26f08f5d707d",
+    "type": "job_found",
+    "description": "New job: Analyst - Information Security (Security, VM & GRC) at Linedata",
+    "meta": {
+      "job_id": "801003c1-7c2b-4c99-ad0a-a0b7b52044f6"
+    },
+    "timestamp": "2026-09-21T00:21:48.152786"
+  },
+  {
+    "id": "a40a67b0-e163-49fa-866e-e0f8d62b2437",
+    "type": "job_found",
+    "description": "New job: Security Analyst, InfoSec (Threat Hunting) at Kroll",
+    "meta": {
+      "job_id": "5786084f-7657-48f3-8c65-430ef83587f1"
+    },
+    "timestamp": "2026-09-21T00:21:48.154620"
+  },
+  {
+    "id": "c1a10c03-51e0-4a5a-83a5-099df63dc847",
+    "type": "job_found",
+    "description": "New job: IT Security Analyst at nVent",
+    "meta": {
+      "job_id": "ab17f5f9-cbd6-401b-848d-738a2d6f4285"
+    },
+    "timestamp": "2026-09-21T00:21:48.156413"
+  },
+  {
+    "id": "c876483b-5be5-4b38-b76b-eed75d31f5a2",
+    "type": "job_found",
+    "description": "New job: SOC Engineer - L3 at NTT DATA, Inc.",
+    "meta": {
+      "job_id": "ca210e9d-4c10-478a-afa4-4f1de7c272f7"
+    },
+    "timestamp": "2026-09-21T00:21:48.158279"
+  },
+  {
+    "id": "e350311e-95bc-44b8-ae88-3b63a7ebfc64",
+    "type": "job_found",
+    "description": "New job: Assistant Manager - Information Security & Governance at HDB Financial Services Ltd.",
+    "meta": {
+      "job_id": "20b2dabc-4f6f-4fd2-8013-66d66ede7907"
+    },
+    "timestamp": "2026-09-21T00:21:48.160172"
+  },
+  {
+    "id": "07bab81b-de09-4c51-8358-2916c1facfca",
+    "type": "job_found",
+    "description": "New job: CYBER SECURITY ANALYST L4 at Wipro",
+    "meta": {
+      "job_id": "37980741-3d5e-4b59-b253-b5af177c5f02"
+    },
+    "timestamp": "2026-09-21T00:21:48.163320"
+  },
+  {
+    "id": "0401f9cf-e9ed-4e66-8c68-2e407b868ac8",
+    "type": "job_found",
+    "description": "New job: Ethical Hacking Cybersecurity Intern at Emoolar Technology Private Limited",
+    "meta": {
+      "job_id": "0d77aa54-f301-4fbf-9020-915aaa432be1"
+    },
+    "timestamp": "2026-09-21T00:21:48.165165"
+  },
+  {
+    "id": "158fe892-c6a2-4a9c-aad3-88f9994fd218",
+    "type": "job_found",
+    "description": "New job: Cyber Security Intern at Aawas Yojana",
+    "meta": {
+      "job_id": "9fcfd8ab-439b-45d2-b8b1-98e1322c80e1"
+    },
+    "timestamp": "2026-09-21T00:21:48.166960"
+  },
+  {
+    "id": "7445cd8f-f1d3-4f40-bbd8-3f0d6af996b9",
+    "type": "job_found",
+    "description": "New job: Cyber Security Intern at CloudZapier",
+    "meta": {
+      "job_id": "a6ed66e1-2120-416e-a6c8-2770823ff25b"
+    },
+    "timestamp": "2026-09-21T00:21:48.168926"
+  },
+  {
+    "id": "ed144114-42e6-4874-8947-a5581e0a3dab",
+    "type": "job_found",
+    "description": "New job: Cyber Security Intern at Career Solutions",
+    "meta": {
+      "job_id": "e0667d26-79c9-4ba5-9b68-16a6632ec4bc"
+    },
+    "timestamp": "2026-09-21T00:21:48.171459"
+  },
+  {
+    "id": "beed3e5f-7514-4ea4-ac16-b5869bfdf66e",
+    "type": "job_scan_complete",
+    "description": "Job scan complete: 12 new jobs found",
+    "meta": {},
+    "timestamp": "2026-09-21T00:21:49.173297"
+  },
+  {
+    "id": "e67b83b6-aa75-4ba0-86fa-77cd0956bdbd",
+    "type": "system_stop",
+    "description": "BRO-BOT shut down",
+    "meta": {},
+    "timestamp": "2026-09-21T00:21:51.685734"
+  },
+  {
+    "id": "48c6a354-13cd-47f1-a51e-31f0d292ac20",
+    "type": "system_start",
+    "description": "BRO-BOT v2 started up \ud83d\ude80",
+    "meta": {},
+    "timestamp": "2026-09-21T00:21:53.805136"
+  },
+  {
+    "id": "b9d014f8-2a98-48a3-ad95-bb1bf65deff7",
+    "type": "system_stop",
+    "description": "BRO-BOT shut down",
+    "meta": {},
+    "timestamp": "2026-09-21T00:22:00.830035"
+  },
+  {
+    "id": "42b9f76f-cde9-4f47-8f25-6089903aafb6",
+    "type": "system_start",
+    "description": "BRO-BOT v2 started up \ud83d\ude80",
+    "meta": {},
+    "timestamp": "2026-09-21T00:22:02.876273"
   }
 ]

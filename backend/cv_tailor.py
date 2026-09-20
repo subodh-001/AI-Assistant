@@ -13,8 +13,12 @@ def get_gemini_model():
     if not api_key:
         return None
     genai.configure(api_key=api_key)
-    # Prefer gemini-1.5-flash or gemini-2.0-flash
-    return genai.GenerativeModel("gemini-3.6-flash")
+    for model_name in ["gemini-1.5-flash", "gemini-1.5-pro", "gemini-2.0-flash", "gemini-pro"]:
+        try:
+            return genai.GenerativeModel(model_name)
+        except Exception:
+            continue
+    return None
 
 def load_master_projects() -> List[Dict[str, Any]]:
     projects_file = DATA_DIR / "master_projects.json"
