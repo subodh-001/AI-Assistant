@@ -1610,4 +1610,129 @@ h1, h2, h3, h4, .font-heading {
   }
 }
 
+/* ─────────────────────────────────────────────────────────
+   SAAS LANDING PAGE & GOOGLE AUTH STYLES
+   ───────────────────────────────────────────────────────── */
+.landing-hero {
+  padding: 50px 20px 30px;
+  text-align: center;
+  max-width: 960px;
+  margin: 0 auto;
+}
+.landing-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(6, 182, 212, 0.12);
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  color: var(--cyan-400);
+  padding: 6px 16px;
+  border-radius: 99px;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+.landing-title {
+  font-size: 44px;
+  font-weight: 900;
+  line-height: 1.2;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+  letter-spacing: -0.5px;
+}
+.landing-subtitle {
+  font-size: 17px;
+  color: var(--text-secondary);
+  max-width: 680px;
+  margin: 0 auto 28px;
+  line-height: 1.6;
+}
+.landing-cta-group {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+.btn-google {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: #ffffff;
+  color: #1f2937;
+  border: 1px solid #cbd5e1;
+  padding: 12px 24px;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+.btn-google:hover {
+  background: #f8fafc;
+  border-color: #94a3b8;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+}
+.btn-google svg { width: 18px; height: 18px; }
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin-top: 24px;
+}
+.pricing-card {
+  background: var(--bg-card);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  position: relative;
+  transition: transform 0.2s ease;
+}
+.pricing-card:hover { transform: translateY(-4px); }
+.pricing-card.popular {
+  border-color: var(--cyan-400);
+  box-shadow: 0 8px 30px rgba(6, 182, 212, 0.15);
+}
+.pricing-card.popular::before {
+  content: 'MOST POPULAR';
+  position: absolute;
+  top: -12px;
+  right: 24px;
+  background: linear-gradient(135deg, var(--cyan-400), var(--purple-500));
+  color: white;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 3px 12px;
+  border-radius: 99px;
+}
+.user-profile-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-input);
+  border: 1px solid var(--glass-border);
+  padding: 6px 12px;
+  border-radius: 99px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.user-avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--cyan-400), var(--purple-500));
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 12px;
+}
+
+
 

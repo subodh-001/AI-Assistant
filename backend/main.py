@@ -796,6 +796,44 @@ async def update_tree_status(req: UpdateTreeNodeStatusRequest):
     return res
 
 
+# ─────────────────────────────────────────────────────────
+#  AUTHENTICATION ENDPOINTS
+# ─────────────────────────────────────────────────────────
+
+class AuthRequest(BaseModel):
+    token: Optional[str] = None
+    email: Optional[str] = "subodhram3350@gmail.com"
+    name: Optional[str] = "Subodh Ram"
+
+
+@app.post("/api/auth/google")
+async def auth_google(req: AuthRequest):
+    user = {
+        "id": "usr_google_subodh",
+        "name": req.name or "Subodh Ram",
+        "email": req.email or "subodhram3350@gmail.com",
+        "provider": "google",
+        "avatar": "S",
+        "authenticated": True
+    }
+    ds.log_activity("user_login", f"User {user['email']} signed in via Google OAuth")
+    return {"success": True, "user": user}
+
+
+@app.get("/api/auth/me")
+async def auth_me():
+    return {
+        "success": True,
+        "user": {
+            "id": "usr_google_subodh",
+            "name": os.getenv("YOUR_NAME", "Subodh Ram"),
+            "email": "subodhram3350@gmail.com",
+            "provider": "google",
+            "authenticated": True
+        }
+    }
+
+
 if FRONTEND_DIR.exists():
     app.mount("/", StaticFiles(directory=str(FRONTEND_DIR), html=True), name="frontend")
 

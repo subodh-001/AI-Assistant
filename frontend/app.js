@@ -9,7 +9,7 @@ const API = 'http://localhost:8000/api';
 //  STATE
 // ─────────────────────────────────────────────────────────
 const state = {
-  currentSection: 'dashboard',
+  currentSection: 'landing',
   selectedPlatform: 'linkedin',
   generatedPost: null,
   skills: [],
@@ -31,10 +31,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   await loadAll();
   loadTemplates();
 
-  // Check if first visit → show onboarding
-  if (!localStorage.getItem('brobot_onboarded')) {
-    setTimeout(showOnboarding, 800);
-  }
+  // Show clean landing page by default
+  switchSection('landing');
 
   // Auto-refresh every 60s
   setInterval(async () => {
@@ -117,6 +115,7 @@ async function apiDelete(path) {
 //  NAVIGATION
 // ─────────────────────────────────────────────────────────
 const PAGE_META = {
+  landing:      { title: 'BRO-BOT AI Platform', subtitle: 'Autonomous AI Career Agent & Job Search Automation' },
   dashboard:    { title: 'Dashboard', subtitle: 'Your AI life manager at a glance' },
   studio:       { title: 'Content Studio', subtitle: 'AI-powered post generator — smarter than Buffer' },
   queue:        { title: 'Post Queue', subtitle: 'Review and approve your scheduled posts' },
@@ -1495,5 +1494,77 @@ async function loadCVMasterProjects() {
     console.error('CV Section: failed to load master projects', e);
   }
 }
+// ─────────────────────────────────────────────────────────
+//  AUTHENTICATION & USER MANAGEMENT
+// ─────────────────────────────────────────────────────────
 
+function showAuthModal() {
+  openModal('modal-auth');
+}
 
+function loginWithGoogle() {
+  const mockUser = {
+    name: 'Subodh Ram',
+    email: 'subodhram3350@gmail.com',
+    avatar: 'S',
+    provider: 'Google'
+  };
+  localStorage.setItem('brobot_user', JSON.stringify(mockUser));
+  state.currentUser = mockUser;
+  updateAuthUI();
+  closeModal('modal-auth');
+  toast('Signed in successfully with Google! 🚀', 'success');
+  switchSection('dashboard');
+}
+
+function loginWithEmail(event) {
+  if (event) event.preventDefault();
+  const emailInput = document.getElementById('auth-email-input');
+  const email = emailInput ? emailInput.value.trim() : 'subodh@example.com';
+  const name = email.split('@')[0] || 'Subodh';
+
+  const user = {
+    name: name.charAt(0).toUpperCase() + name.slice(1),
+    email: email,
+    avatar: name.charAt(0).toUpperCase(),
+    provider: 'Email'
+  };
+  localStorage.setItem('brobot_user', JSON.stringify(user));
+  state.currentUser = user;
+  updateAuthUI();
+  closeModal('modal-auth');
+  toast(`Welcome back, ${user.name}! 🚀`, 'success');
+  switchSection('dashboard');
+}
+
+function logoutUser() {
+  localStorage.removeItem('brobot_user');
+  state.currentUser = null;
+  updateAuthUI();
+  toast('Logged out successfully', 'info');
+  switchSection('landing');
+}
+
+function updateAuthUI() {
+  const storedUser = localStorage.getItem('brobot_user');
+  if (storedUser) {
+    try {
+      state.currentUser = JSON.parse(storedUser);
+    } catch (e) {}
+  }
+
+  const nameEl = document.getElementById('user-display-name');
+  const avatarEl = document.getElementById('user-avatar-letter');
+  if (state.currentUser) {
+    if (nameEl) nameEl.textContent = state.currentUser.name;
+    if (avatarEl) avatarEl.textContent = state.currentUser.avatar || state.currentUser.name.charAt(0);
+  } else {
+    if (nameEl) nameEl.textContent = 'Sign In with Google';
+    if (avatarEl) avatarEl.textContent = 'G';
+  }
+}
+
+// Initialize Auth state on load
+document.addEventListener('DOMContentLoaded', () => {
+  updateAuthUI();
+});
