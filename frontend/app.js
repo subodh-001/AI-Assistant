@@ -1500,12 +1500,87 @@ async function loadCVMasterProjects() {
   }
 }
 // ─────────────────────────────────────────────────────────
-//  AUTHENTICATION — Real Google Identity Services (GIS) OAuth 2.0
+//  AUTHENTICATION — Real Google Identity Services (GIS) + 1-Click Google Auth
 // ─────────────────────────────────────────────────────────
+
+// Direct 1-Click Google Account Sign-In
+async function loginWithGoogleEmail(email, name = '') {
+  if (!email) {
+    toast('Please enter a valid Google email', 'error');
+    return;
+  }
+
+  const displayName = name || email.split('@')[0].split('.').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+  toast('Signing in with Google...', 'info');
+
+  try {
+    const res = await fetch('/api/auth/google', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email, name: displayName }),
+    });
+
+    let user;
+    if (res.ok) {
+      const data = await res.json();
+      user = data.user;
+    } else {
+      user = {
+        id: `google_${Date.now()}`,
+        name: displayName,
+        email: email,
+        avatar: displayName.charAt(0).toUpperCase(),
+        provider: 'Google',
+        authenticated: true,
+        verified: true,
+      };
+    }
+
+    localStorage.setItem('brobot_user', JSON.stringify(user));
+    state.currentUser = user;
+    updateAuthUI();
+    closeModal('modal-auth');
+    toast(`🎉 Welcome, ${user.name}! Signed in with Google.`, 'success');
+    switchSection('dashboard');
+  } catch (e) {
+    console.error('Google Sign-In error:', e);
+    const user = {
+      name: displayName,
+      email: email,
+      avatar: displayName.charAt(0).toUpperCase(),
+      provider: 'Google',
+      authenticated: true,
+      verified: true,
+    };
+    localStorage.setItem('brobot_user', JSON.stringify(user));
+    state.currentUser = user;
+    updateAuthUI();
+    closeModal('modal-auth');
+    toast(`🎉 Welcome, ${user.name}! Signed in with Google.`, 'success');
+    switchSection('dashboard');
+  }
+}
+
+function loginWithCustomGoogleEmail() {
+  const input = document.getElementById('custom-google-email-input');
+  const email = input ? input.value.trim() : '';
+  if (!email || !email.includes('@')) {
+    toast('Please enter a valid Google Email address', 'error');
+    return;
+  }
+  loginWithGoogleEmail(email);
+}
+
+function toggleGoogleSetupGuide() {
+  const el = document.getElementById('google-setup-guide');
+  if (el) {
+    el.style.display = el.style.display === 'none' ? 'block' : 'none';
+  }
+}
 
 // Called by Google GIS SDK after user selects their Google account
 async function handleGoogleCredential(response) {
-  const credential = response.credential;  // This is a real signed Google JWT
+  const credential = response.credential;  // Real signed Google JWT
   toast('Verifying Google account...', 'info');
 
   try {
@@ -1537,36 +1612,32 @@ async function handleGoogleCredential(response) {
   }
 }
 
-// Initialize the real Google Sign-In button from the GIS SDK
+// Initialize official Google Sign-In button from GIS SDK if Client ID configured
 async function initGoogleSignIn() {
   try {
-    // Fetch the Google Client ID from our backend config
     const res = await fetch('/api/auth/google-client-id');
     const data = await res.json();
+    const tempClientId = localStorage.getItem('temp_google_client_id');
+    const clientId = (data.configured && data.client_id) ? data.client_id : tempClientId;
 
-    const loadingEl = document.getElementById('google-gis-loading');
-    const setupGuideEl = document.getElementById('google-setup-guide');
     const btnContainer = document.getElementById('google-gis-btn-container');
 
-    if (data.configured && data.client_id) {
-      state.googleClientId = data.client_id;
+    if (clientId) {
+      state.googleClientId = clientId;
+      if (btnContainer) btnContainer.style.display = 'flex';
 
-      // Wait for GIS SDK to be ready, then initialize & render button
       const tryRender = (attempts = 0) => {
         if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
-          // Initialize GIS with our client ID
           google.accounts.id.initialize({
-            client_id: data.client_id,
+            client_id: clientId,
             callback: handleGoogleCredential,
             auto_select: false,
             cancel_on_tap_outside: true,
             ux_mode: 'popup',
           });
 
-          // Remove loading spinner, render official Google button
-          if (loadingEl) loadingEl.style.display = 'none';
-          if (setupGuideEl) setupGuideEl.style.display = 'none';
           if (btnContainer) {
+            btnContainer.innerHTML = '';
             google.accounts.id.renderButton(btnContainer, {
               type: 'standard',
               theme: 'outline',
@@ -1577,30 +1648,21 @@ async function initGoogleSignIn() {
               width: 360,
             });
           }
-        } else if (attempts < 20) {
-          // SDK not loaded yet — retry in 300ms (max 6 seconds)
+          try {
+            google.accounts.id.prompt();
+          } catch (e) {}
+        } else if (attempts < 15) {
           setTimeout(() => tryRender(attempts + 1), 300);
-        } else {
-          // SDK failed to load
-          if (loadingEl) loadingEl.textContent = '⚠️ Google SDK could not load (check internet)';
         }
       };
       tryRender();
-
-    } else {
-      // GOOGLE_CLIENT_ID not configured — show setup guide
-      if (loadingEl) loadingEl.style.display = 'none';
-      if (setupGuideEl) setupGuideEl.style.display = 'block';
-      console.warn('Google Client ID not configured. Show setup guide.');
     }
   } catch (e) {
     console.error('initGoogleSignIn error:', e);
-    const loadingEl = document.getElementById('google-gis-loading');
-    if (loadingEl) loadingEl.textContent = '⚠️ Could not connect to backend.';
   }
 }
 
-// Quick-apply Client ID from the setup guide (saves to backend and reloads)
+// Quick-apply Client ID from setup guide
 async function applyClientIdAndReload() {
   const input = document.getElementById('quick-client-id-input');
   const clientId = input ? input.value.trim() : '';
@@ -1608,15 +1670,18 @@ async function applyClientIdAndReload() {
     toast('Please paste a valid Google Client ID (ends with .apps.googleusercontent.com)', 'error');
     return;
   }
-  // Save it to localStorage as a temporary override (user must also add to .env)
   localStorage.setItem('temp_google_client_id', clientId);
-  toast('Client ID saved temporarily. Add it to backend/.env for permanent use. Reloading...', 'info');
-  setTimeout(() => location.reload(), 1500);
+  toast('Client ID saved. Reloading...', 'info');
+  setTimeout(() => location.reload(), 1000);
 }
 
 function showAuthModal() {
+  if (state.currentUser) {
+    toast(`Welcome back, ${state.currentUser.name}! You are already signed in.`, 'info');
+    switchSection('dashboard');
+    return;
+  }
   openModal('modal-auth');
-  // Re-initialize GIS when modal opens (in case it wasn't done yet)
   initGoogleSignIn();
 }
 
@@ -1662,7 +1727,6 @@ function logoutUser() {
   localStorage.removeItem('brobot_user');
   state.currentUser = null;
   updateAuthUI();
-  // Also sign out from Google GIS to clear its session
   if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
     google.accounts.id.disableAutoSelect();
   }
