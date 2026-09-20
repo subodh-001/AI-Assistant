@@ -125,18 +125,15 @@
     <!-- ═══════════════════ SIDEBAR ═══════════════════ -->
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-logo">
-        <div class="logo-icon">🤖</div>
+        <div class="logo-icon">🚀</div>
         <div class="logo-text">
-          <h1>BRO-BOT</h1>
-          <p>v2 · AI Life Manager</p>
+          <h1>CareerPilot AI</h1>
+          <p>v2.0 · AI Career Copilot</p>
         </div>
       </div>
 
       <nav class="sidebar-nav">
         <span class="nav-section-label">Main</span>
-        <div class="nav-item" id="nav-landing" onclick="switchSection('landing')" tabindex="0" role="button" aria-label="SaaS Landing Page">
-          <span class="nav-icon">🚀</span><span>SaaS Landing</span>
-        </div>
         <div class="nav-item active" id="nav-dashboard" onclick="switchSection('dashboard')" tabindex="0" role="button" aria-label="Dashboard">
           <span class="nav-icon">🏠</span><span>Dashboard</span>
         </div>
@@ -187,7 +184,7 @@
         <div class="status-pill">
           <div class="status-dot" id="status-dot"></div>
           <div>
-            <div style="font-size:13px;font-weight:600;color:var(--text-primary)" id="status-text">BRO-BOT Online</div>
+            <div style="font-size:13px;font-weight:600;color:var(--text-primary)" id="status-text">CareerPilot Online</div>
             <div style="font-size:11px;color:var(--text-muted)" id="status-sub">All systems go</div>
           </div>
         </div>
@@ -202,92 +199,397 @@
           <p id="page-subtitle">Your AI life manager at a glance</p>
         </div>
         <div class="topbar-actions">
-          <div style="display:flex;align-items:center;gap:6px;background:rgba(6,182,212,0.12);border:1px solid rgba(6,182,212,0.3);padding:6px 12px;border-radius:99px;font-size:12px;font-weight:700;color:var(--cyan-400)">
+          <div class="internal-app-btn" style="display:flex;align-items:center;gap:6px;background:rgba(6,182,212,0.12);border:1px solid rgba(6,182,212,0.3);padding:6px 12px;border-radius:99px;font-size:12px;font-weight:700;color:var(--cyan-400)">
             <span style="width:8px;height:8px;border-radius:50%;background:var(--cyan-400);box-shadow:0 0 8px var(--cyan-400);animation:dotPulse 1.5s infinite"></span>
             🚨 AI Radar: Internet Jobs Monitored 24/7
           </div>
-          <div id="user-header-badge" class="user-profile-badge" onclick="showAuthModal()" style="cursor:pointer" title="Account Settings">
+          <div id="user-header-badge" class="user-profile-badge" onclick="handleUserBadgeClick()" style="cursor:pointer" title="Account Settings">
             <div class="user-avatar" id="user-avatar-letter">G</div>
             <span id="user-display-name">Sign In with Google</span>
           </div>
-          <button class="btn btn-ghost btn-sm" onclick="refreshData()" id="refresh-btn" title="Refresh">🔄 Refresh</button>
-          <button class="btn btn-primary btn-sm" onclick="switchSection('studio')">✨ Create Post</button>
+          <button class="btn btn-ghost btn-sm internal-app-btn" onclick="refreshData()" id="refresh-btn" title="Refresh">🔄 Refresh</button>
+          <button class="btn btn-primary btn-sm internal-app-btn" onclick="switchSection('studio')">✨ Create Post</button>
         </div>
       </header>
 
       <!-- ─────────── SAAS LANDING PAGE ─────────── -->
       <section class="section active" id="section-landing">
-        <div class="landing-hero">
-          <div class="landing-badge">
-            <span style="width:7px;height:7px;border-radius:50%;background:var(--cyan-400);box-shadow:0 0 8px var(--cyan-400);animation:dotPulse 1.5s infinite"></span>
-            🚀 BRO-BOT AI v2.0 — Autonomous Career & Life Manager
-          </div>
-          <h1 class="landing-title">Land Your Dream Tech Job <span class="gradient-text">10x Faster</span> with 24/7 AI</h1>
-          <p class="landing-subtitle">
-            BRO-BOT scans Indeed, LinkedIn, Naukri every 5 minutes, auto-tailors ATS-optimized CVs for your master projects portfolio, and drafts personalized recruiter responses automatically.
-          </p>
-
-          <div class="landing-cta-group">
-            <button class="btn btn-primary" style="padding:14px 28px;font-size:15px;font-weight:700" onclick="showAuthModal()">
-              ⚡ Get Started Free with Google
-            </button>
-            <button class="btn btn-secondary" style="padding:14px 24px;font-size:15px" onclick="switchSection('cv')">
-              📄 Try Live ATS CV Generator
-            </button>
-          </div>
-
-          <!-- Feature Cards Grid -->
-          <div class="pricing-grid" style="text-align:left;margin-top:40px">
-            <div class="pricing-card">
-              <div style="font-size:28px;margin-bottom:12px">🚨</div>
-              <div style="font-weight:800;font-size:18px;margin-bottom:6px">24/7 AI Job Radar</div>
-              <p style="font-size:13px;color:var(--text-secondary);line-height:1.6">Scans 6+ job portals every 5 mins. Direct Telegram alerts as soon as relevant roles match your skills.</p>
+        <!-- Hero Section Block -->
+        <div class="landing-hero-block">
+          <div class="landing-container">
+            <div class="landing-badge">
+              <span style="width:7px;height:7px;border-radius:50%;background:var(--cyan-400);box-shadow:0 0 8px var(--cyan-400);animation:dotPulse 1.5s infinite"></span>
+              🚀 CareerPilot AI v2.0 — 24/7 Autonomous AI Career Agent
             </div>
-            <div class="pricing-card popular">
-              <div style="font-size:28px;margin-bottom:12px">📄</div>
-              <div style="font-weight:800;font-size:18px;margin-bottom:6px">1-Click ATS CV Tailor</div>
-              <p style="font-size:13px;color:var(--text-secondary);line-height:1.6">Matches your master project portfolio to any job description. Generates printable 1-page A4 PDF resumes.</p>
+            
+            <h1 class="landing-title">
+              Stop Applying Manually. Let <span class="gradient-text">24/7 Autonomous AI</span> Land Your Next Tech Role
+            </h1>
+            
+            <p class="landing-subtitle">
+              CareerPilot AI is the world’s first autonomous career copilot for Software Engineers and Tech Professionals. It monitors 6+ job portals 24/7, customizes your resume for ATS screening in seconds, and dispatches instant Telegram alerts.
+            </p>
+
+            <div class="landing-cta-group">
+              <button class="btn btn-primary" style="padding:16px 36px;font-size:16px;font-weight:700" onclick="showAuthModal()">
+                ⚡ Get Started Free with Google
+              </button>
+              <button class="btn btn-secondary" style="padding:16px 28px;font-size:16px" onclick="switchSection('cv')">
+                📄 Try Live ATS Resume Customizer
+              </button>
             </div>
-            <div class="pricing-card">
-              <div style="font-size:28px;margin-bottom:12px">🔍</div>
-              <div style="font-weight:800;font-size:18px;margin-bottom:6px">DeepSeek Research</div>
-              <p style="font-size:13px;color:var(--text-secondary);line-height:1.6">Instant company intelligence briefings, salary estimation, interview prep, and recruiter outreach drafts.</p>
+
+            <!-- Interactive Scanner Live Mockup Preview Box -->
+            <div class="landing-mockup-card">
+              <div class="mockup-header">
+                <div class="mockup-dots">
+                  <div class="mockup-dot red"></div>
+                  <div class="mockup-dot yellow"></div>
+                  <div class="mockup-dot green"></div>
+                </div>
+                <div style="font-size:12px;font-weight:700;color:var(--text-muted)">
+                  ⚡ CareerPilot Radar Engine • Live Monitoring (Indeed, LinkedIn, Naukri)
+                </div>
+                <div style="font-size:11px;background:rgba(22,163,74,0.15);color:var(--green-400);padding:2px 10px;border-radius:99px;font-weight:700">
+                  ONLINE 24/7
+                </div>
+              </div>
+
+              <div class="mockup-log-list">
+                <div class="mockup-log-item">
+                  <span style="color:var(--cyan-400);font-weight:700">[10:42:01 AM]</span>
+                  <span>🔍 Scanned LinkedIn & Naukri: Found <strong>Senior Full-Stack Engineer</strong> at TechCorp Inc.</span>
+                </div>
+                <div class="mockup-log-item">
+                  <span style="color:var(--purple-400);font-weight:700">[10:42:02 AM]</span>
+                  <span>🧠 Gemini 1.5 Flash AI selected top 3 portfolio projects matching React, FastAPI & PostgreSQL</span>
+                </div>
+                <div class="mockup-log-item">
+                  <span style="color:var(--amber-400);font-weight:700">[10:42:03 AM]</span>
+                  <span>📄 Generated ATS Customized Resume • Match Score: <strong style="color:var(--green-400)">94% ATS Keyword Alignment</strong></span>
+                </div>
+                <div class="mockup-log-item" style="border-color:rgba(16,185,129,0.3);background:rgba(16,185,129,0.06)">
+                  <span style="color:var(--green-400);font-weight:700">[10:42:04 AM]</span>
+                  <span>📲 Dispatched 1-Click PDF Resume & Application Link to Telegram Bot! 🎉</span>
+                </div>
+              </div>
             </div>
           </div>
+        </div>
 
-          <!-- Pricing Tiers Section -->
-          <div style="margin-top:60px">
-            <h2 style="font-size:28px;font-weight:900;margin-bottom:8px">Simple, Transparent Pricing</h2>
-            <p style="color:var(--text-muted);font-size:14px">Choose the plan that fits your career acceleration goals</p>
+        <!-- Metrics Full-Width Bar -->
+        <div class="landing-metrics-bar">
+          <div class="landing-container">
+            <div class="metrics-grid">
+              <div>
+                <div style="font-size:36px;font-weight:900;color:var(--cyan-400)">5 Mins</div>
+                <div style="font-size:13px;color:var(--text-secondary);font-weight:600;margin-top:4px">Job Radar Scanning Interval</div>
+              </div>
+              <div>
+                <div style="font-size:36px;font-weight:900;color:var(--purple-400)">6+ Portals</div>
+                <div style="font-size:13px;color:var(--text-secondary);font-weight:600;margin-top:4px">LinkedIn, Indeed, Naukri, Shine...</div>
+              </div>
+              <div>
+                <div style="font-size:36px;font-weight:900;color:var(--green-400)">90%+</div>
+                <div style="font-size:13px;color:var(--text-secondary);font-weight:600;margin-top:4px">ATS Keyword Match Score</div>
+              </div>
+              <div>
+                <div style="font-size:36px;font-weight:900;color:var(--pink-400)">1 Single Page</div>
+                <div style="font-size:13px;color:var(--text-secondary);font-weight:600;margin-top:4px">Strict Clean A4 Printable PDF Export</div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-            <div class="pricing-grid" style="text-align:left;max-width:760px;margin:32px auto 0">
+        <!-- Narrative Split Section (What is CareerPilot AI) -->
+        <div class="landing-section-block">
+          <div class="landing-container">
+            <div class="narrative-split">
+              <!-- Left Column: Story & Narrative -->
+              <div>
+                <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(99,102,241,0.1);color:var(--purple-500);padding:6px 16px;border-radius:99px;font-size:12px;font-weight:800;margin-bottom:16px">
+                  💡 THE AI CAREER REVOLUTION
+                </div>
+                <h2 style="font-size:36px;font-weight:900;line-height:1.25;margin-bottom:20px;color:var(--text-primary)">
+                  What is CareerPilot AI & Why Was It Built?
+                </h2>
+                
+                <p style="font-size:15px;color:var(--text-secondary);line-height:1.8;margin-bottom:18px">
+                  Searching for a tech job today is broken. Spending 4 to 6 hours every day manually browsing job portals, filling repetitive forms, and sending generic resumes leads to burnout. Applicant Tracking Systems (ATS) reject <strong>80%+ of candidates automatically</strong> simply because generic resumes lack target keywords.
+                </p>
+
+                <p style="font-size:15px;color:var(--text-secondary);line-height:1.8;margin-bottom:18px">
+                  <strong>CareerPilot AI</strong> turns your job search into an automated engine. You input your master project portfolio (real-world projects, tech stacks, and bullet achievements) just once. CareerPilot's background engine continuously monitors tech portals 24/7.
+                </p>
+
+                <p style="font-size:15px;color:var(--text-secondary);line-height:1.8;margin-bottom:24px">
+                  When a matching opening goes live, CareerPilot selects your top 3 matching projects, tailors bullet points with precise ATS keywords, formats a clean 1-page A4 PDF resume, and sends an alert straight to your Telegram bot.
+                </p>
+
+                <div style="display:flex;flex-direction:column;gap:10px;font-size:14px;font-weight:600;color:var(--text-primary)">
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <span style="color:var(--green-400);font-weight:900">✓</span> Save 4+ hours of repetitive manual searching every single day
+                  </div>
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <span style="color:var(--green-400);font-weight:900">✓</span> Beat Applicant Tracking Systems with 85%+ keyword optimization
+                  </div>
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <span style="color:var(--green-400);font-weight:900">✓</span> Be among the first 10 applicants to apply to newly posted roles
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right Column: Card Highlight -->
+              <div>
+                <div style="background:var(--bg-card);border:1px solid var(--glass-border);border-radius:var(--radius-xl);padding:36px;box-shadow:var(--shadow-lg)">
+                  <div style="font-size:14px;font-weight:800;color:var(--cyan-400);margin-bottom:16px;text-transform:uppercase;letter-spacing:1px">
+                    ⚡ Autonomous Engine Highlights
+                  </div>
+
+                  <div style="display:flex;flex-direction:column;gap:20px">
+                    <div style="display:flex;gap:16px;align-items:flex-start">
+                      <div style="font-size:28px;background:var(--bg-input);padding:10px;border-radius:12px">🚨</div>
+                      <div>
+                        <div style="font-weight:800;font-size:16px;margin-bottom:2px">Round-the-Clock Radar</div>
+                        <div style="font-size:13px;color:var(--text-secondary);line-height:1.5">Scans top platforms every 300 seconds without human intervention.</div>
+                      </div>
+                    </div>
+
+                    <div style="display:flex;gap:16px;align-items:flex-start">
+                      <div style="font-size:28px;background:var(--bg-input);padding:10px;border-radius:12px">🧠</div>
+                      <div>
+                        <div style="font-weight:800;font-size:16px;margin-bottom:2px">Gemini 1.5 Project Selection</div>
+                        <div style="font-size:13px;color:var(--text-secondary);line-height:1.5">Intelligently selects relevant portfolio projects tailored to job requirements.</div>
+                      </div>
+                    </div>
+
+                    <div style="display:flex;gap:16px;align-items:flex-start">
+                      <div style="font-size:28px;background:var(--bg-input);padding:10px;border-radius:12px">📄</div>
+                      <div>
+                        <div style="font-weight:800;font-size:16px;margin-bottom:2px">Strict Single-Page A4 PDF</div>
+                        <div style="font-size:13px;color:var(--text-secondary);line-height:1.5">Guaranteed single-page print format engineered to pass ATS screeners.</div>
+                      </div>
+                    </div>
+
+                    <div style="display:flex;gap:16px;align-items:flex-start">
+                      <div style="font-size:28px;background:var(--bg-input);padding:10px;border-radius:12px">📲</div>
+                      <div>
+                        <div style="font-weight:800;font-size:16px;margin-bottom:2px">Telegram Instant Dispatch</div>
+                        <div style="font-size:13px;color:var(--text-secondary);line-height:1.5">Receive direct mobile notifications with 1-click resume download links.</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- How It Works Section (Full Width 3 Steps) -->
+        <div class="landing-section-block alt-bg">
+          <div class="landing-container">
+            <div style="text-align:center;max-width:800px;margin:0 auto 48px">
+              <h2 style="font-size:36px;font-weight:900;margin-bottom:12px">How CareerPilot AI Automates Your Job Search</h2>
+              <p style="color:var(--text-secondary);font-size:16px">A simple 3-step automated workflow that turns weeks of job hunting into minutes</p>
+            </div>
+
+            <div class="steps-grid">
+              <div class="pricing-card">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+                  <span style="font-size:36px">📁</span>
+                  <span style="font-size:13px;font-weight:900;color:var(--cyan-400);background:rgba(6,182,212,0.12);padding:4px 12px;border-radius:99px">STEP 01</span>
+                </div>
+                <h3 style="font-weight:800;font-size:20px;margin-bottom:10px">Create Master Project Vault</h3>
+                <p style="font-size:14px;color:var(--text-secondary);line-height:1.6">
+                  Add your major technical projects (Full-Stack, ML pipelines, Mobile, Web3) into your master vault once with tech stacks & bullet achievements.
+                </p>
+              </div>
+
+              <div class="pricing-card">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+                  <span style="font-size:36px">🚨</span>
+                  <span style="font-size:13px;font-weight:900;color:var(--purple-400);background:rgba(99,102,241,0.12);padding:4px 12px;border-radius:99px">STEP 02</span>
+                </div>
+                <h3 style="font-weight:800;font-size:20px;margin-bottom:10px">24/7 Autonomous Radar Scans</h3>
+                <p style="font-size:14px;color:var(--text-secondary);line-height:1.6">
+                  Our background scheduler scans Indeed, LinkedIn, Naukri, and Shine every 300 seconds for new job postings matching your desired target titles.
+                </p>
+              </div>
+
+              <div class="pricing-card">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+                  <span style="font-size:36px">🎯</span>
+                  <span style="font-size:13px;font-weight:900;color:var(--green-400);background:rgba(34,197,94,0.12);padding:4px 12px;border-radius:99px">STEP 03</span>
+                </div>
+                <h3 style="font-weight:800;font-size:20px;margin-bottom:10px">Auto ATS Resume & Telegram Alert</h3>
+                <p style="font-size:14px;color:var(--text-secondary);line-height:1.6">
+                  Gemini AI selects your top 3 matching projects, injects role keywords, generates a 1-page A4 PDF resume, and alerts you on Telegram.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Complete Feature Suite Section (3x2 Grid) -->
+        <div class="landing-section-block">
+          <div class="landing-container">
+            <div style="text-align:center;max-width:800px;margin:0 auto 48px">
+              <h2 style="font-size:36px;font-weight:900;margin-bottom:12px">Complete 6-in-1 AI Platform Suite</h2>
+              <p style="color:var(--text-secondary);font-size:16px">All essential career automation tools unified into a single dashboard</p>
+            </div>
+
+            <div class="pricing-grid">
+              <div class="pricing-card">
+                <div style="font-size:32px;margin-bottom:12px">🚨</div>
+                <h3 style="font-weight:800;font-size:18px;margin-bottom:8px">24/7 AI Job Radar</h3>
+                <p style="font-size:14px;color:var(--text-secondary);line-height:1.6">Autonomous background scanner that monitors job portals round-the-clock and updates your application pipeline.</p>
+              </div>
+
+              <div class="pricing-card popular">
+                <div style="font-size:32px;margin-bottom:12px">📄</div>
+                <h3 style="font-weight:800;font-size:18px;margin-bottom:8px">1-Click ATS Resume Customizer</h3>
+                <p style="font-size:14px;color:var(--text-secondary);line-height:1.6">Generates role-tailored resumes matched to any job description. Includes instant ATS match scoring & clean A4 PDF printing.</p>
+              </div>
+
+              <div class="pricing-card">
+                <div style="font-size:32px;margin-bottom:12px">🌳</div>
+                <h3 style="font-weight:800;font-size:18px;margin-bottom:8px">Application Tree Pipeline</h3>
+                <p style="font-size:14px;color:var(--text-secondary);line-height:1.6">Visual Kanban tracking board to manage target companies, application statuses, interview rounds, and follow-ups.</p>
+              </div>
+
+              <div class="pricing-card">
+                <div style="font-size:32px;margin-bottom:12px">🔍</div>
+                <h3 style="font-weight:800;font-size:18px;margin-bottom:8px">DeepSeek Intelligence</h3>
+                <p style="font-size:14px;color:var(--text-secondary);line-height:1.6">Provides deep company research briefings, tech stack breakdown, expected interview questions, and salary insights.</p>
+              </div>
+
+              <div class="pricing-card">
+                <div style="font-size:32px;margin-bottom:12px">💬</div>
+                <h3 style="font-weight:800;font-size:18px;margin-bottom:8px">Recruiter InMail Replier</h3>
+                <p style="font-size:14px;color:var(--text-secondary);line-height:1.6">Drafts professional, high-converting responses to recruiters on LinkedIn and email to lock in phone screens.</p>
+              </div>
+
+              <div class="pricing-card">
+                <div style="font-size:32px;margin-bottom:12px">📰</div>
+                <h3 style="font-weight:800;font-size:18px;margin-bottom:8px">Telegram Daily Digest</h3>
+                <p style="font-size:14px;color:var(--text-secondary);line-height:1.6">Receive a daily 8:00 AM executive brief on Telegram highlighting new job matches, scheduled posts, and tasks.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Comparison Table Section -->
+        <div class="landing-section-block alt-bg">
+          <div class="landing-container">
+            <div style="text-align:center;max-width:800px;margin:0 auto 40px">
+              <h2 style="font-size:36px;font-weight:900;margin-bottom:12px">Old Job Search vs CareerPilot AI</h2>
+              <p style="color:var(--text-secondary);font-size:16px">See why automated candidates get 3x more interview callbacks</p>
+            </div>
+
+            <div style="background:var(--bg-card);border:1px solid var(--glass-border);border-radius:var(--radius-xl);padding:32px;overflow-x:auto;box-shadow:var(--shadow-md)">
+              <table style="width:100%;border-collapse:collapse;font-size:14px">
+                <thead>
+                  <tr style="border-bottom:1px solid var(--glass-border);text-align:left">
+                    <th style="padding:16px;color:var(--text-muted);font-weight:700">Feature / Process</th>
+                    <th style="padding:16px;color:var(--red-400);font-weight:700">Traditional Job Search</th>
+                    <th style="padding:16px;color:var(--cyan-400);font-weight:800;font-size:15px">CareerPilot AI Agent 🚀</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style="border-bottom:1px solid var(--glass-border)">
+                    <td style="padding:16px;font-weight:700">Daily Time Spent</td>
+                    <td style="padding:16px;color:var(--text-secondary)">4 to 5 Hours manual browsing</td>
+                    <td style="padding:16px;color:var(--green-400);font-weight:800">0 Minutes (Fully Automated)</td>
+                  </tr>
+                  <tr style="border-bottom:1px solid var(--glass-border)">
+                    <td style="padding:16px;font-weight:700">Resume Customization</td>
+                    <td style="padding:16px;color:var(--text-secondary)">Same generic PDF sent to every job</td>
+                    <td style="padding:16px;color:var(--green-400);font-weight:800">Role-specific ATS Tailored Resume</td>
+                  </tr>
+                  <tr style="border-bottom:1px solid var(--glass-border)">
+                    <td style="padding:16px;font-weight:700">ATS Match Score</td>
+                    <td style="padding:16px;color:var(--text-secondary)">Unpredictable (40-60% match rate)</td>
+                    <td style="padding:16px;color:var(--green-400);font-weight:800">Guaranteed 85% to 95% Match Score</td>
+                  </tr>
+                  <tr style="border-bottom:1px solid var(--glass-border)">
+                    <td style="padding:16px;font-weight:700">Job Detection Speed</td>
+                    <td style="padding:16px;color:var(--text-secondary)">Hours or days after job posting</td>
+                    <td style="padding:16px;color:var(--green-400);font-weight:800">Within 5 Minutes of Posting</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:16px;font-weight:700">Print & Layout Format</td>
+                    <td style="padding:16px;color:var(--text-secondary)">Multi-page messy PDF overflow</td>
+                    <td style="padding:16px;color:var(--green-400);font-weight:800">Strict Single-Page A4 Printable PDF</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pricing Tiers Section -->
+        <div class="landing-section-block">
+          <div class="landing-container">
+            <div style="text-align:center;max-width:800px;margin:0 auto 48px">
+              <h2 style="font-size:36px;font-weight:900;margin-bottom:12px">Simple, Transparent Pricing</h2>
+              <p style="color:var(--text-secondary);font-size:16px">Accelerate your software engineering job search today</p>
+            </div>
+
+            <div class="pricing-grid" style="max-width:1100px;margin:0 auto">
               <!-- Free Plan -->
               <div class="pricing-card">
-                <div style="font-size:13px;font-weight:700;color:var(--text-muted)">STARTER</div>
-                <div style="font-size:36px;font-weight:900;margin:12px 0">₹0 <span style="font-size:13px;color:var(--text-muted);font-weight:500">/ forever</span></div>
-                <ul style="font-size:13px;color:var(--text-secondary);line-height:2;padding-left:16px;margin-bottom:24px">
-                  <li>✓ Manual CV Tailor & PDF Export</li>
-                  <li>✓ Master Projects Portfolio (Up to 5)</li>
-                  <li>✓ Basic Job Search & Tracking</li>
-                  <li>✓ Daily AI Brief</li>
+                <div style="font-size:13px;font-weight:800;color:var(--text-muted);letter-spacing:1px">STARTER</div>
+                <div style="font-size:42px;font-weight:900;margin:16px 0;color:var(--text-primary)">₹0 <span style="font-size:14px;color:var(--text-muted);font-weight:500">/ forever</span></div>
+                <ul style="font-size:14px;color:var(--text-secondary);line-height:2.2;padding-left:18px;margin-bottom:32px;flex:1">
+                  <li>✓ Manual CV Customizer & PDF Export</li>
+                  <li>✓ Master Projects Vault (Up to 5)</li>
+                  <li>✓ Basic Job Search & Kanban Tracker</li>
+                  <li>✓ Daily Executive Briefing</li>
                 </ul>
-                <button class="btn btn-secondary" style="width:100%" onclick="showAuthModal()">Start Free Now</button>
+                <button class="btn btn-secondary" style="width:100%;padding:14px;font-weight:700" onclick="showAuthModal()">Start Free Now</button>
               </div>
 
               <!-- Pro Plan -->
               <div class="pricing-card popular">
-                <div style="font-size:13px;font-weight:700;color:var(--cyan-400)">PRO AI CAREER AGENT</div>
-                <div style="font-size:36px;font-weight:900;margin:12px 0;color:var(--cyan-400)">₹499 <span style="font-size:13px;color:var(--text-muted);font-weight:500">/ month</span></div>
-                <ul style="font-size:13px;color:var(--text-secondary);line-height:2;padding-left:16px;margin-bottom:24px">
-                  <li>✓ 24/7 Continuous AI Job Radar (5-min)</li>
-                  <li>✓ Unlimited AI ATS CV Tailoring</li>
-                  <li>✓ Instant Telegram Notifications</li>
-                  <li>✓ DeepSeek Company Briefing & Interview Prep</li>
+                <div style="font-size:13px;font-weight:800;color:var(--cyan-400);letter-spacing:1px">PRO CAREER PILOT</div>
+                <div style="font-size:42px;font-weight:900;margin:16px 0;color:var(--cyan-400)">₹499 <span style="font-size:14px;color:var(--text-muted);font-weight:500">/ month</span></div>
+                <ul style="font-size:14px;color:var(--text-secondary);line-height:2.2;padding-left:18px;margin-bottom:32px;flex:1">
+                  <li>✓ 24/7 Continuous AI Job Radar (5-min scans)</li>
+                  <li>✓ Unlimited AI ATS Resume Customization</li>
+                  <li>✓ Instant Telegram PDF Notifications</li>
+                  <li>✓ DeepSeek Intelligence & Interview Prep</li>
                   <li>✓ Unlimited Master Projects & Cloud Sync</li>
                 </ul>
-                <button class="btn btn-primary" style="width:100%" onclick="showAuthModal()">Unlock Pro Agent 🚀</button>
+                <button class="btn btn-primary" style="width:100%;padding:14px;font-weight:700" onclick="showAuthModal()">Unlock Pro Agent 🚀</button>
+              </div>
+
+              <!-- Enterprise Plan -->
+              <div class="pricing-card">
+                <div style="font-size:13px;font-weight:800;color:var(--purple-400);letter-spacing:1px">ULTIMATE LIFETIME</div>
+                <div style="font-size:42px;font-weight:900;margin:16px 0;color:var(--purple-400)">₹1,999 <span style="font-size:14px;color:var(--text-muted);font-weight:500">/ lifetime</span></div>
+                <ul style="font-size:14px;color:var(--text-secondary);line-height:2.2;padding-left:18px;margin-bottom:32px;flex:1">
+                  <li>✓ Everything in Pro Plan Forever</li>
+                  <li>✓ Priority Gemini 1.5 Flash API Execution</li>
+                  <li>✓ Dedicated Telegram Bot Webhook Integration</li>
+                  <li>✓ 1-on-1 Resume & Portfolio Audit</li>
+                  <li>✓ VIP Support Channel</li>
+                </ul>
+                <button class="btn btn-secondary" style="width:100%;padding:14px;font-weight:700" onclick="showAuthModal()">Get Lifetime Pass ✨</button>
               </div>
             </div>
+          </div>
+        </div>
+
+        <!-- Bottom CTA Banner Block -->
+        <div style="width:100%;padding:80px 0;background:linear-gradient(135deg, rgba(79,70,229,0.15), rgba(6,182,212,0.15));border-top:1px solid var(--glass-border);text-align:center">
+          <div class="landing-container">
+            <h2 style="font-size:40px;font-weight:900;margin-bottom:16px">Ready to Automate Your Job Search?</h2>
+            <p style="font-size:18px;color:var(--text-secondary);max-width:700px;margin:0 auto 36px">
+              Join software developers using CareerPilot AI to scan job portals 24/7 and generate ATS-friendly resumes instantly.
+            </p>
+            <button class="btn btn-primary" style="padding:18px 40px;font-size:18px;font-weight:800" onclick="showAuthModal()">
+              ⚡ Get Started Free with Google
+            </button>
           </div>
         </div>
       </section>

@@ -115,7 +115,7 @@ async function apiDelete(path) {
 //  NAVIGATION
 // ─────────────────────────────────────────────────────────
 const PAGE_META = {
-  landing:      { title: 'BRO-BOT AI Platform', subtitle: 'Autonomous AI Career Agent & Job Search Automation' },
+  landing:      { title: 'CareerPilot AI Platform', subtitle: 'Autonomous AI Career Agent & Job Search Automation' },
   dashboard:    { title: 'Dashboard', subtitle: 'Your AI life manager at a glance' },
   studio:       { title: 'Content Studio', subtitle: 'AI-powered post generator — smarter than Buffer' },
   queue:        { title: 'Post Queue', subtitle: 'Review and approve your scheduled posts' },
@@ -143,6 +143,11 @@ function switchSection(section) {
   setEl('page-title', meta.title);
   setEl('page-subtitle', meta.subtitle);
   state.currentSection = section;
+
+  // Hide internal action buttons on landing page
+  document.querySelectorAll('.internal-app-btn').forEach(btn => {
+    btn.style.display = (section === 'landing') ? 'none' : '';
+  });
 
   if (section === 'calendar') renderCalendar();
   if (section === 'queue') loadPosts();
@@ -1537,12 +1542,21 @@ function loginWithEmail(event) {
   switchSection('dashboard');
 }
 
+function handleUserBadgeClick() {
+  if (state.currentUser) {
+    if (confirm(`Logged in as ${state.currentUser.name} (${state.currentUser.email}). Do you want to log out?`)) {
+      logoutUser();
+    }
+  } else {
+    showAuthModal();
+  }
+}
+
 function logoutUser() {
   localStorage.removeItem('brobot_user');
   state.currentUser = null;
   updateAuthUI();
   toast('Logged out successfully', 'info');
-  switchSection('landing');
 }
 
 function updateAuthUI() {
@@ -1553,14 +1567,30 @@ function updateAuthUI() {
     } catch (e) {}
   }
 
+  const sidebar = document.getElementById('sidebar');
+  const mainContent = document.getElementById('main-content-area');
   const nameEl = document.getElementById('user-display-name');
   const avatarEl = document.getElementById('user-avatar-letter');
+  const badgeEl = document.getElementById('user-header-badge');
+
   if (state.currentUser) {
-    if (nameEl) nameEl.textContent = state.currentUser.name;
+    // Logged In: Show sidebar & application dashboard
+    if (sidebar) sidebar.style.display = 'flex';
+    if (mainContent) mainContent.style.marginLeft = '';
+    if (nameEl) nameEl.textContent = `${state.currentUser.name} (Logout)`;
     if (avatarEl) avatarEl.textContent = state.currentUser.avatar || state.currentUser.name.charAt(0);
+    if (badgeEl) badgeEl.title = 'Click to Logout';
+    if (state.currentSection === 'landing') {
+      switchSection('dashboard');
+    }
   } else {
+    // Not Logged In: Full-width public SaaS Landing Page without sidebar
+    if (sidebar) sidebar.style.display = 'none';
+    if (mainContent) mainContent.style.marginLeft = '0';
     if (nameEl) nameEl.textContent = 'Sign In with Google';
     if (avatarEl) avatarEl.textContent = 'G';
+    if (badgeEl) badgeEl.title = 'Click to Sign In';
+    switchSection('landing');
   }
 }
 
